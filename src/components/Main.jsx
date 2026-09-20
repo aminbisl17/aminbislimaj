@@ -13,7 +13,7 @@ export default function Main() {
     github: "https://github.com/aminbisl17",
     linkedin: "https://www.linkedin.com/in/aminbislimaj",
     demoClient: "https://beautysalonclient.aminbislimaj.com",
-    demoAdmin: "https://beautysalonadmin.aminbislimaj.com/"
+    demoAdmin: "https://beautysalonadmin.aminbislimaj.com"
   };
 
   const skills = {

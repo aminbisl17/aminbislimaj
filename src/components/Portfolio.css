@@ -87,6 +87,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   gap: 0.75rem;
 }
 
@@ -102,6 +103,7 @@ body {
   text-decoration: none;
   transition: all 0.2s ease;
   min-height: 44px;
+  box-sizing: border-box;
 }
 
 .btn:hover {
@@ -237,10 +239,22 @@ body {
 .project-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
+}
+
+.project-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Remove hardcoded inline margin overrides */
+.project-links .btn {
+  margin-left: 0 !important;
 }
 
 .project-title {
@@ -322,11 +336,12 @@ body {
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
   .portfolio-container {
-    padding: 1.5rem 1rem;
+    padding: 1.25rem 1rem;
   }
 
   .portfolio-header {
-    padding: 2.5rem 1.25rem 2rem;
+    padding: 2.25rem 1rem 1.75rem;
+    margin-bottom: 2rem;
   }
 
   .card {
@@ -338,7 +353,12 @@ body {
     align-items: stretch;
   }
 
-  .project-header .btn {
+  .project-links {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .project-links .btn {
     width: 100%;
   }
 
