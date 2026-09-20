@@ -12,7 +12,8 @@ export default function Main() {
     whatsapp: "https://wa.me/38345380871",
     github: "https://github.com/aminbisl17",
     linkedin: "https://www.linkedin.com/in/aminbislimaj",
-    demo: "https://beautysalon.aminbislimaj.com/"
+    demoClient: "https://beautysalonclient.aminbislimaj.com",
+    demoAdmin: "https://beautysalonadmin.aminbislimaj.com/"
   };
 
   const skills = {
@@ -62,9 +63,6 @@ export default function Main() {
             </a>
             <a href={profile.linkedin} target="_blank" rel="noreferrer" className="btn btn-outline">
               🔗 LinkedIn
-            </a>
-            <a href={profile.demo} target="_blank" rel="noreferrer" className="btn btn-primary">
-              🚀 Live Demo
             </a>
           </div>
         </div>
@@ -128,9 +126,14 @@ export default function Main() {
               <h3 className="project-title">{featuredProject.title}</h3>
               <p className="project-subtitle">{featuredProject.subtitle}</p>
             </div>
-            <a href={profile.demo} target="_blank" rel="noreferrer" className="btn btn-primary">
-              Shiko Live ↗
-            </a>
+            <div className="project-links">
+              <a href={profile.demoClient} target="_blank" rel="noreferrer" className="btn btn-primary">
+                Client Web ↗
+              </a>
+              <a href={profile.demoAdmin} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ marginLeft: '8px' }}>
+                Admin Web ↗
+              </a>
+            </div>
           </div>
 
           <p className="paragraph">{featuredProject.description}</p>
@@ -189,5 +192,5 @@ export default function Main() {
         </div>
       </section>
     </div>
-  );
+  ); 
 }
