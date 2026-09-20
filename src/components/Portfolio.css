@@ -1,14 +1,18 @@
 :root {
   --primary-color: #2563eb;
   --primary-hover: #1d4ed8;
+  --whatsapp-color: #25d366;
+  --whatsapp-hover: #1eaa53;
   --bg-color: #f8fafc;
   --card-bg: #ffffff;
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --border-color: #e2e8f0;
   --accent-bg: #eff6ff;
-  --radius: 12px;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --radius: 16px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
 }
 
 * {
@@ -26,7 +30,7 @@ body {
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 2.5rem 1.5rem;
+  padding: 3rem 1.5rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   color: var(--text-primary);
   line-height: 1.6;
@@ -34,25 +38,40 @@ body {
 
 /* Header & Profile */
 .portfolio-header {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #1e1b4b 100%);
   color: #ffffff;
-  padding: 3rem 2rem;
+  padding: 3.5rem 2rem 2.5rem;
   border-radius: var(--radius);
-  margin-bottom: 2.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
+  box-shadow: var(--shadow-lg);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.availability-badge {
+  display: inline-block;
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 1rem;
 }
 
 .profile-name {
-  font-size: clamp(1.8rem, 5vw, 2.75rem);
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;
   margin: 0 0 0.5rem 0;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   word-break: break-word;
 }
 
 .profile-title {
-  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-size: clamp(1.05rem, 3vw, 1.3rem);
   color: #93c5fd;
   font-weight: 600;
   margin: 0 0 0.75rem 0;
@@ -61,7 +80,7 @@ body {
 .profile-location {
   color: #cbd5e1;
   font-size: 0.95rem;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 2rem 0;
 }
 
 .contact-bar {
@@ -76,40 +95,57 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.65rem 1.2rem;
-  border-radius: 8px;
+  padding: 0.65rem 1.25rem;
+  border-radius: 10px;
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
-  min-height: 44px; /* Mobile touch target standard */
+  min-height: 44px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
 }
 
 .btn-primary {
   background-color: var(--primary-color);
   color: #ffffff;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
 }
 
-.btn-secondary {
-  background-color: rgba(255, 255, 255, 0.15);
+.btn-whatsapp {
+  background-color: var(--whatsapp-color);
   color: #ffffff;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+}
+
+.btn-whatsapp:hover {
+  background-color: var(--whatsapp-hover);
+}
+
+.btn-secondary {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
 }
 
 .btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.22);
 }
 
 .btn-outline {
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 /* Cards & Layout */
@@ -117,21 +153,27 @@ body {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
-  padding: 1.75rem;
-  box-shadow: var(--shadow);
+  padding: 1.85rem;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 .portfolio-section {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.75rem;
 }
 
 .section-title {
   font-size: clamp(1.25rem, 4vw, 1.5rem);
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-primary);
   margin-bottom: 1.25rem;
   position: relative;
   padding-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 .section-title::after {
@@ -139,22 +181,23 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 50px;
-  height: 3px;
+  width: 42px;
+  height: 4px;
   background-color: var(--primary-color);
   border-radius: 2px;
 }
 
 .paragraph {
   color: var(--text-secondary);
-  font-size: 1rem;
+  font-size: 1.025rem;
   margin: 0;
+  line-height: 1.7;
 }
 
 /* Skills Section */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 1.25rem;
 }
 
@@ -166,24 +209,29 @@ body {
 .card-title {
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--text-primary);
   margin: 0 0 1rem 0;
 }
 
-.skill-list {
-  padding-left: 1.2rem;
-  margin: 0;
-  color: var(--text-secondary);
+.skill-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.skill-list li {
-  margin-bottom: 0.4rem;
-  word-break: break-word;
+.skill-pill {
+  background-color: #f1f5f9;
+  color: #334155;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #e2e8f0;
 }
 
 /* Project Section */
 .project-card {
-  border-left: 4px solid var(--primary-color);
+  border-left: 5px solid var(--primary-color);
 }
 
 .project-header {
@@ -197,12 +245,14 @@ body {
 
 .project-title {
   font-size: 1.4rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
+  color: var(--text-primary);
 }
 
 .project-subtitle {
-  color: var(--text-secondary);
+  color: var(--primary-color);
+  font-weight: 600;
   font-size: 0.95rem;
   margin-top: 0.25rem;
 }
@@ -211,36 +261,49 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin: 1.25rem 0;
+  margin: 1.5rem 0;
 }
 
 .tech-tag {
   background-color: var(--accent-bg);
   color: var(--primary-color);
-  padding: 0.35rem 0.75rem;
+  padding: 0.35rem 0.8rem;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
-  border: 1px solid #dbeafe;
+  border: 1px solid #bfdbfe;
 }
 
 .project-details-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 
 .sub-heading {
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+/* Custom Lists */
+.custom-list {
+  padding-left: 1.2rem;
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.custom-list li {
   margin-bottom: 0.5rem;
+  word-break: break-word;
+  line-height: 1.6;
 }
 
 /* Experience */
 .exp-header {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .exp-subtitle {
@@ -250,15 +313,20 @@ body {
   margin: 0.25rem 0 0 0;
 }
 
+/* Education */
+.education-card .profile-location {
+  margin-bottom: 0;
+  color: var(--text-secondary);
+}
+
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
   .portfolio-container {
-    padding: 1.25rem 1rem;
+    padding: 1.5rem 1rem;
   }
 
   .portfolio-header {
-    padding: 2rem 1.25rem;
-    border-radius: 10px;
+    padding: 2.5rem 1.25rem 2rem;
   }
 
   .card {
