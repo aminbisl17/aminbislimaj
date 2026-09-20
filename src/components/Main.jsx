@@ -117,6 +117,7 @@ export default function Main() {
         </div>
       </section>
 
+
       {/* Featured Project Section */}
       <section className="portfolio-section">
         <h2 className="section-title">Projekti Kryesor</h2>
