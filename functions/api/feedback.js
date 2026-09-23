@@ -1,184 +1,85 @@
+const COOKIE_NAME = "feedback_voted";
 
-export async function onRequestGet() {
-  return new Response(
-    JSON.stringify({
-      test: true,
-      message: "Cloudflare Function works",
-    }),
-    {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
+export async function onRequestGet({ env, request }) {
+  const approve = Number(
+    (await env.FEEDBACK_KV.get("approve")) || 0
   );
-}
 
-/*function json(data, status = 200, headers = {}) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+  const disapprove = Number(
+    (await env.FEEDBACK_KV.get("disapprove")) || 0
+  );
+
+  const cookie = request.headers.get("Cookie") || "";
+  const hasVoted = cookie.includes(`${COOKIE_NAME}=true`);
+
+  return Response.json({
+    approve,
+    disapprove,
+    hasVoted,
   });
 }
 
-function getVisitorId(request) {
-  const cookie = request.headers.get("Cookie") || "";
+export async function onRequestPost({ env, request }) {
+  try {
+    const cookie = request.headers.get("Cookie") || "";
 
-  const match = cookie.match(/portfolio_visitor=([^;]+)/);
+    if (cookie.includes(`${COOKIE_NAME}=true`)) {
+      return Response.json(
+        { error: "You have already voted." },
+        { status: 409 }
+      );
+    }
 
-  if (match) {
-    return match[1];
-  }
+    const body = await request.json();
+    const { type } = body;
 
-  return crypto.randomUUID();
-}
+    if (type !== "approve" && type !== "disapprove") {
+      return Response.json(
+        { error: "Invalid feedback type." },
+        { status: 400 }
+      );
+    }
 
-async function getCounts(env) {
-  return {
-    approve: Number(await env.FEEDBACK_KV.get("approve")) || 0,
-    disapprove: Number(await env.FEEDBACK_KV.get("disapprove")) || 0,
-  };
-}
+    const key = type;
 
-export default async function onRequest(context) {
-  const { request, env } = context;
-
-  // =========================
-  // GET
-  // =========================
-
-  if (request.method === "GET") {
-    const visitorId = getVisitorId(request);
-
-    const counts = await getCounts(env);
-
-    const voted = await env.FEEDBACK_KV.get(
-      `visitor:${visitorId}`
+    const current = Number(
+      (await env.FEEDBACK_KV.get(key)) || 0
     );
 
-    const headers = new Headers({
-      "Content-Type": "application/json",
-    });
-
-    const hasCookie =
-      request.headers
-        .get("Cookie")
-        ?.includes("portfolio_visitor=");
-
-    if (!hasCookie) {
-      headers.append(
-        "Set-Cookie",
-        `portfolio_visitor=${visitorId}; Max-Age=31536000; Path=/; Secure; HttpOnly; SameSite=Lax`
-      );
-    }
-
-    return new Response(
-      JSON.stringify({
-        ...counts,
-        hasVoted: !!voted,
-      }),
-      {
-        status: 200,
-        headers,
-      }
-    );
-  }
-
-  // =========================
-  // POST
-  // =========================
-
-  if (request.method === "POST") {
-    let body;
-
-    try {
-      body = await request.json();
-    } catch {
-      return json(
-        { error: "Invalid request body" },
-        400
-      );
-    }
-
-    const type = body.type;
-
-    if (
-      type !== "approve" &&
-      type !== "disapprove"
-    ) {
-      return json(
-        { error: "Invalid vote" },
-        400
-      );
-    }
-
-    const visitorId = getVisitorId(request);
-
-    const existingVote =
-      await env.FEEDBACK_KV.get(
-        `visitor:${visitorId}`
-      );
-
-    if (existingVote) {
-      const counts = await getCounts(env);
-
-      return json({
-        ...counts,
-        hasVoted: true,
-      });
-    }
-
-    const current =
-      Number(await env.FEEDBACK_KV.get(type)) || 0;
+    const newCount = current + 1;
 
     await env.FEEDBACK_KV.put(
-      type,
-      String(current + 1)
+      key,
+      String(newCount)
     );
 
-    await env.FEEDBACK_KV.put(
-      `visitor:${visitorId}`,
-      type,
-      {
-        expirationTtl: 31536000,
-      }
+    const approve = Number(
+      (await env.FEEDBACK_KV.get("approve")) || 0
     );
 
-    const counts = await getCounts(env);
-
-    const headers = new Headers({
-      "Content-Type": "application/json",
-    });
-
-    headers.append(
-      "Set-Cookie",
-      `portfolio_visitor=${visitorId}; Max-Age=31536000; Path=/; Secure; HttpOnly; SameSite=Lax`
+    const disapprove = Number(
+      (await env.FEEDBACK_KV.get("disapprove")) || 0
     );
 
     return new Response(
       JSON.stringify({
-        ...counts,
-        hasVoted: true,
+        approve,
+        disapprove,
       }),
       {
         status: 200,
-        headers,
+        headers: {
+          "Content-Type": "application/json",
+          "Set-Cookie": `${COOKIE_NAME}=true; Path=/; Max-Age=31536000; Secure; HttpOnly; SameSite=Lax`,
+        },
       }
     );
+  } catch (error) {
+    console.error("Feedback error:", error);
+
+    return Response.json(
+      { error: "Failed to submit feedback." },
+      { status: 500 }
+    );
   }
-
-  // =========================
-  // OTHER METHODS
-  // =========================
-
-  return json(
-    { error: "Method not allowed" },
-    405,
-    {
-      Allow: "GET, POST",
-    }
-  );
-}*/
+}
