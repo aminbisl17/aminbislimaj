@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Portfolio.css";
 
 export default function Main() {
@@ -22,6 +22,16 @@ export default function Main() {
   };
 
   const [language, setLanguage] = useState("sq");
+
+  const [feedback, setFeedback] = useState({
+  approve: 0,
+  disapprove: 0,
+});
+
+const [hasVoted, setHasVoted] = useState(false);
+const [feedbackLoading, setFeedbackLoading] = useState(true);
+const [feedbackMessage, setFeedbackMessage] = useState("");
+
 
   const translations = {
     en: {
@@ -146,6 +156,16 @@ export default function Main() {
       footer: {
         role: "Software Developer",
       },
+
+      feedback: {
+  title: "What do you think about this portfolio?",
+  description: "Your feedback helps me improve it.",
+  approve: "Approve",
+  disapprove: "Disapprove",
+  thanks: "Thank you for your feedback.",
+  already: "You have already voted.",
+  error: "Something went wrong. Please try again.",
+},
 
       skills: {
         backend: "Backend",
@@ -279,6 +299,17 @@ export default function Main() {
         role: "Zhvillues Softuerësh",
       },
 
+
+      feedback: {
+  title: "Çfarë mendoni për këtë portfolio?",
+  description: "Feedback-u juaj më ndihmon ta përmirësoj.",
+  approve: "Aprovo",
+  disapprove: "Mos e aprovo",
+  thanks: "Faleminderit për feedback-un.",
+  already: "Ju tashmë keni votuar.",
+  error: "Diçka shkoi keq. Provo përsëri.",
+},
+
       skills: {
         backend: "Backend",
         database: "Databaza",
@@ -335,6 +366,71 @@ export default function Main() {
       "QR Authentication",
     ],
   };
+
+const submitFeedback = async (type) => {
+  if (hasVoted || feedbackLoading) return;
+
+  setFeedbackLoading(true);
+  setFeedbackMessage("");
+
+  try {
+    const response = await fetch("/api/feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "Failed to submit feedback"
+      );
+    }
+
+    setFeedback({
+      approve: data.approve || 0,
+      disapprove: data.disapprove || 0,
+    });
+
+    setHasVoted(true);
+
+    setFeedbackMessage(t.feedback.thanks);
+  } catch (error) {
+    console.error("Feedback error:", error);
+
+    setFeedbackMessage(t.feedback.error);
+  } finally {
+    setFeedbackLoading(false);
+  }
+};
+
+  useEffect(() => {
+  fetch("/api/feedback")
+    .then((res) => res.json())
+    .then((data) => {
+      setFeedback({
+        approve: data.approve || 0,
+        disapprove: data.disapprove || 0,
+      });
+
+      setHasVoted(data.hasVoted || false);
+    })
+    .catch((error) => {
+      console.error(
+        "Failed to load feedback:",
+        error
+      );
+    })
+    .finally(() => {
+      setFeedbackLoading(false);
+    });
+}, []);
+
 
   return (
     <main className="portfolio">
@@ -419,6 +515,27 @@ export default function Main() {
               <span>↗</span>
             </a>
           </div>
+
+          <div className="hero-feedback">
+  <button
+    type="button"
+    className={`hero-approve-button ${
+      hasVoted ? "disabled" : ""
+    }`}
+    onClick={() => submitFeedback("approve")}
+    disabled={hasVoted || feedbackLoading}
+  >
+    <span className="hero-approve-icon">👍</span>
+
+    <span className="hero-approve-text">
+      {hasVoted
+        ? t.feedback.thanks
+        : t.feedback.approve}
+    </span>
+
+    <strong>{feedback.approve}</strong>
+  </button>
+</div>
 
           <div className="hero-meta">
             <span>{profile.location}</span>
@@ -702,6 +819,7 @@ export default function Main() {
           </a>
         </div>
       </section>
+
 
       {/* FOOTER */}
       <footer>
