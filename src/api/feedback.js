@@ -23,124 +23,146 @@ function getVisitorId(request) {
 async function getCounts(env) {
   return {
     approve: Number(await env.FEEDBACK_KV.get("approve")) || 0,
-    disapprove:
-      Number(await env.FEEDBACK_KV.get("disapprove")) || 0,
+    disapprove: Number(await env.FEEDBACK_KV.get("disapprove")) || 0,
   };
 }
 
-export async function onRequestGet(context) {
+export default async function onRequest(context) {
   const { request, env } = context;
 
-  const visitorId = getVisitorId(request);
-  const counts = await getCounts(env);
+  // =========================
+  // GET
+  // =========================
 
-  const voted = await env.FEEDBACK_KV.get(
-    `visitor:${visitorId}`
-  );
+  if (request.method === "GET") {
+    const visitorId = getVisitorId(request);
 
-  const headers = new Headers({
-    "Content-Type": "application/json",
-  });
+    const counts = await getCounts(env);
 
-  if (!request.headers.get("Cookie")?.includes("portfolio_visitor=")) {
+    const voted = await env.FEEDBACK_KV.get(
+      `visitor:${visitorId}`
+    );
+
+    const headers = new Headers({
+      "Content-Type": "application/json",
+    });
+
+    const hasCookie =
+      request.headers
+        .get("Cookie")
+        ?.includes("portfolio_visitor=");
+
+    if (!hasCookie) {
+      headers.append(
+        "Set-Cookie",
+        `portfolio_visitor=${visitorId}; Max-Age=31536000; Path=/; Secure; HttpOnly; SameSite=Lax`
+      );
+    }
+
+    return new Response(
+      JSON.stringify({
+        ...counts,
+        hasVoted: !!voted,
+      }),
+      {
+        status: 200,
+        headers,
+      }
+    );
+  }
+
+  // =========================
+  // POST
+  // =========================
+
+  if (request.method === "POST") {
+    let body;
+
+    try {
+      body = await request.json();
+    } catch {
+      return json(
+        { error: "Invalid request body" },
+        400
+      );
+    }
+
+    const type = body.type;
+
+    if (
+      type !== "approve" &&
+      type !== "disapprove"
+    ) {
+      return json(
+        { error: "Invalid vote" },
+        400
+      );
+    }
+
+    const visitorId = getVisitorId(request);
+
+    const existingVote =
+      await env.FEEDBACK_KV.get(
+        `visitor:${visitorId}`
+      );
+
+    if (existingVote) {
+      const counts = await getCounts(env);
+
+      return json({
+        ...counts,
+        hasVoted: true,
+      });
+    }
+
+    const current =
+      Number(await env.FEEDBACK_KV.get(type)) || 0;
+
+    await env.FEEDBACK_KV.put(
+      type,
+      String(current + 1)
+    );
+
+    await env.FEEDBACK_KV.put(
+      `visitor:${visitorId}`,
+      type,
+      {
+        expirationTtl: 31536000,
+      }
+    );
+
+    const counts = await getCounts(env);
+
+    const headers = new Headers({
+      "Content-Type": "application/json",
+    });
+
     headers.append(
       "Set-Cookie",
       `portfolio_visitor=${visitorId}; Max-Age=31536000; Path=/; Secure; HttpOnly; SameSite=Lax`
     );
-  }
 
-  return new Response(
-    JSON.stringify({
-      ...counts,
-      hasVoted: !!voted,
-    }),
-    {
-      status: 200,
-      headers,
-    }
-  );
-}
-
-export async function onRequestPost(context) {
-  const { request, env } = context;
-
-  let body;
-
-  try {
-    body = await request.json();
-  } catch {
-    return json(
+    return new Response(
+      JSON.stringify({
+        ...counts,
+        hasVoted: true,
+      }),
       {
-        error: "Invalid request",
-      },
-      400
+        status: 200,
+        headers,
+      }
     );
   }
 
-  const type = body.type;
+  // =========================
+  // OTHER METHODS
+  // =========================
 
-  if (type !== "approve" && type !== "disapprove") {
-    return json(
-      {
-        error: "Invalid vote",
-      },
-      400
-    );
-  }
-
-  const visitorId = getVisitorId(request);
-
-  // Prevent multiple votes from the same visitor
-  const existingVote = await env.FEEDBACK_KV.get(
-    `visitor:${visitorId}`
-  );
-
-  if (existingVote) {
-    const counts = await getCounts(env);
-
-    return json({
-      ...counts,
-      hasVoted: true,
-    });
-  }
-
-  // Increase count
-  const current =
-    Number(await env.FEEDBACK_KV.get(type)) || 0;
-
-  await env.FEEDBACK_KV.put(
-    type,
-    String(current + 1)
-  );
-
-  // Remember visitor's vote
-  await env.FEEDBACK_KV.put(
-    `visitor:${visitorId}`,
-    type,
+  return json(
+    { error: "Method not allowed" },
+    405,
     {
-      expirationTtl: 31536000,
-    }
-  );
-
-  const counts = await getCounts(env);
-
-  const headers = new Headers({
-    "Content-Type": "application/json",
-  });
-
-  headers.append(
-    "Set-Cookie",
-    `portfolio_visitor=${visitorId}; Max-Age=31536000; Path=/; Secure; HttpOnly; SameSite=Lax`
-  );
-
-  return new Response(
-    JSON.stringify({
-      ...counts,
-      hasVoted: true,
-    }),
-    {
-      status: 200,
-      headers,
+      Allow: "GET, POST",
     }
   );
 }
