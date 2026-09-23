@@ -1,4 +1,20 @@
-function json(data, status = 200, headers = {}) {
+
+export async function onRequestGet() {
+  return new Response(
+    JSON.stringify({
+      test: true,
+      message: "Cloudflare Function works",
+    }),
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+/*function json(data, status = 200, headers = {}) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
@@ -165,4 +181,4 @@ export default async function onRequest(context) {
       Allow: "GET, POST",
     }
   );
-}
+}*/
