@@ -708,35 +708,59 @@ const submitFeedback = async (type) => {
     </div>
 </div>
 
-  <div className="project-gallery-grid">
-    {Object.entries(projectImages).map(([path, image], index) => {
-      const fileName = path
-        .split("/")
-        .pop()
-        .replace(/\.[^/.]+$/, "")
-        .replace(/[-_]/g, " ");
+    <div className="project-gallery">
+      <div className="project-gallery-grid">
+        {Object.entries(projectImages).map(([path, image], index) => {
+          const fileName = path
+            .split("/")
+            .pop()
+            .replace(/\.[^/.]+$/, "")
+            .replace(/[-_]/g, " ");
 
-      return (
+          return (
+            <div
+              className={`project-image-card ${
+                index === 0 ? "project-image-large" : ""
+              }`}
+              key={path}
+              onClick={() => setSelectedImage({ src: image, name: fileName })}
+            >
+              <img
+                src={image}
+                alt={`Beauty Salon ${fileName}`}
+              />
+
+              <div className="project-image-overlay">
+                <span>{fileName}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Full View Lightbox Modal */}
+      {selectedImage && (
         <div
-          className={`project-image-card ${
-            index === 0 ? "project-image-large" : ""
-          }`}
-          key={path}
+          className="lightbox-overlay"
+          onClick={() => setSelectedImage(null)}
         >
-          <img
-            src={image}
-            alt={`Beauty Salon ${fileName}`}
-          />
-
-          <div className="project-image-overlay">
-            <span>{fileName}</span>
+          <div
+            className="lightbox-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="lightbox-close"
+              onClick={() => setSelectedImage(null)}
+              aria-label="Close full view"
+            >
+              &times;
+            </button>
+            <img src={selectedImage.src} alt={selectedImage.name} />
+            <div className="lightbox-caption">{selectedImage.name}</div>
           </div>
         </div>
-      );
-    })}
-  </div>
-</div>
-
+      )}
+    </div>
 
           <div className="project-body">
             <div className="project-column">
