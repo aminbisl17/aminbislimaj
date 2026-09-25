@@ -1750,4 +1750,100 @@ footer {
   .project-image-overlay {
     padding-bottom: 12px;
   }
+}/* =========================
+   LIGHTBOX FULL VIEW MODAL
+========================= */
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+
+  animation: fadeIn 0.2s ease-out;
+}
+
+.lightbox-content {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  max-width: 90vw;
+  max-height: 90vh;
+
+  overflow: hidden;
+
+  border: 1px solid #383e3b;
+  border-radius: 12px;
+
+  background: #111513;
+}
+
+.lightbox-content img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 80vh;
+
+  object-fit: contain;
+}
+
+.lightbox-caption {
+  padding: 14px 18px;
+
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: capitalize;
+
+  border-top: 1px solid #222724;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.6);
+
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
