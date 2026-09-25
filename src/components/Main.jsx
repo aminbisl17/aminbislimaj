@@ -96,11 +96,11 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
         label: "01 / MAIN PROJECT",
         title: "Beauty Salon SaaS",
 
-          screenshots: "Pamje e platformës",
+          screenshots: "Platform demo images",
   screenshotsTitle: "Beauty Salon Platform",
   screenshotsDescription:
-    "Disa pamje të aplikacionit desktop për menaxhimin e sallonit",
-
+     "Some interface images of the platform that includes web, mobile and desktop interfaces",
+    
         description:
           "A complete multi-platform business management system designed around salon appointments, employees, services, clients and availability.",
         client: "Client Web ↗",
@@ -242,11 +242,11 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
       project: {
         label: "01 / PROJEKTI KRYESOR",
         title: "Beauty Salon SaaS",
-
-  screenshots: "Pamje e platformës",
-  screenshotsTitle: "Beauty Salon Platform",
-  screenshotsDescription:
-    "Disa pamje të aplikacionit desktop për menaxhimin e sallonit",
+        
+screenshots: "Imazhe të platformës",
+screenshotsTitle: “Platforma Beauty Salon”,
+screenshotsDescription:
+“Disa imazhe të ndërfaqes së platformës, e cila përfshin ndërfaqe web, mobile dhe desktop”,
 
         description:
           "Sistem i plotë multi-platformë për menaxhimin e operacioneve të salloneve të bukurisë, i ndërtuar rreth termineve, punëtorëve, shërbimeve, klientëve dhe disponueshmërisë.",
