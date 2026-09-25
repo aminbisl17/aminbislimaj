@@ -244,9 +244,9 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
         title: "Beauty Salon SaaS",
         
 screenshots: "Imazhe të platformës",
-screenshotsTitle: “Platforma Beauty Salon”,
+screenshotsTitle: "Platforma Beauty Salon",
 screenshotsDescription:
-“Disa imazhe të ndërfaqes së platformës, e cila përfshin ndërfaqe web, mobile dhe desktop”,
+"Disa imazhe të ndërfaqes së platformës, e cila përfshin ndërfaqe web, mobile dhe desktop",
 
         description:
           "Sistem i plotë multi-platformë për menaxhimin e operacioneve të salloneve të bukurisë, i ndërtuar rreth termineve, punëtorëve, shërbimeve, klientëve dhe disponueshmërisë.",
