@@ -11,6 +11,7 @@ const projectImages = import.meta.glob(
 );
 
 export default function Main() {
+const [selectedImage, setSelectedImage] = useState(null);
   const profile = {
     name: "Amin Bislimaj",
     role: "Software Developer",
