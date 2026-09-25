@@ -1597,3 +1597,157 @@ footer {
     justify-content: center;
   }
 }
+
+/* =========================
+   PROJECT SCREENSHOTS
+========================= */
+
+.project-gallery {
+  padding: 40px 45px 45px;
+  border-top: 1px solid #303633;
+}
+
+.project-gallery-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-bottom: 25px;
+}
+
+.project-gallery-label {
+  display: block;
+  margin-bottom: 8px;
+
+  color: #89908b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.project-gallery-heading h3 {
+  margin: 0;
+
+  font-family: "Manrope", sans-serif;
+  font-size: 22px;
+  letter-spacing: -0.7px;
+}
+
+.project-gallery-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-auto-rows: 220px;
+  gap: 12px;
+}
+
+.project-image-card {
+  position: relative;
+  overflow: hidden;
+
+  min-width: 0;
+
+  border: 1px solid #383e3b;
+  border-radius: 13px;
+
+  background: #111513;
+
+  cursor: pointer;
+}
+
+.project-image-card.project-image-large {
+  grid-row: span 2;
+}
+
+.project-image-card img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.45s ease,
+    filter 0.45s ease;
+}
+
+.project-image-card:hover img {
+  transform: scale(1.035);
+  filter: brightness(0.72);
+}
+
+.project-image-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  padding: 35px 16px 14px;
+
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.72),
+    rgba(0, 0, 0, 0)
+  );
+
+  pointer-events: none;
+}
+
+.project-image-overlay span {
+  color: white;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =========================
+   PROJECT GALLERY MOBILE
+========================= */
+
+@media (max-width: 700px) {
+  .project-gallery {
+    padding: 28px 22px 30px;
+  }
+
+  .project-gallery-heading {
+    margin-bottom: 18px;
+  }
+
+  .project-gallery-heading h3 {
+    font-size: 19px;
+  }
+
+  .project-gallery-grid {
+    display: flex;
+
+    overflow-x: auto;
+
+    gap: 10px;
+
+    padding-bottom: 5px;
+
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+  }
+
+  .project-gallery-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-image-card,
+  .project-image-card.project-image-large {
+    flex: 0 0 82%;
+
+    height: 230px;
+
+    grid-row: auto;
+
+    scroll-snap-align: start;
+  }
+
+  .project-image-overlay {
+    padding-bottom: 12px;
+  }
+}

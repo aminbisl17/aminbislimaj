@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./Portfolio.css";
 
+const projectImages = import.meta.glob(
+  "../assets/project/*.{png,jpg,jpeg,webp}",
+  {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }
+);
+
 export default function Main() {
   const profile = {
     name: "Amin Bislimaj",
@@ -44,6 +53,8 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
         cv: "View CV",
       },
 
+
+
       hero: {
         available: "Available for software development opportunities",
         titleFirst: "I build",
@@ -83,6 +94,12 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
       project: {
         label: "01 / MAIN PROJECT",
         title: "Beauty Salon SaaS",
+
+          screenshots: "Pamje e platformës",
+  screenshotsTitle: "Beauty Salon Platform",
+  screenshotsDescription:
+    "Disa pamje të aplikacionit desktop për menaxhimin e sallonit",
+
         description:
           "A complete multi-platform business management system designed around salon appointments, employees, services, clients and availability.",
         client: "Client Web ↗",
@@ -201,7 +218,6 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
         backendDescription:
           "Dizajnim i API-ve, sistemeve të autentikimit, databazave dhe logjikës së biznesit me Java & Spring Boot.",
       },
-
       sections: {
         about: "Rreth meje",
         skills: "Aftësitë teknike",
@@ -225,6 +241,12 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
       project: {
         label: "01 / PROJEKTI KRYESOR",
         title: "Beauty Salon SaaS",
+
+  screenshots: "Pamje e platformës",
+  screenshotsTitle: "Beauty Salon Platform",
+  screenshotsDescription:
+    "Disa pamje të aplikacionit desktop për menaxhimin e sallonit",
+
         description:
           "Sistem i plotë multi-platformë për menaxhimin e operacioneve të salloneve të bukurisë, i ndërtuar rreth termineve, punëtorëve, shërbimeve, klientëve dhe disponueshmërisë.",
         client: "Client Web ↗",
@@ -298,7 +320,6 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
       footer: {
         role: "Zhvillues Softuerësh",
       },
-
 
       feedback: {
   title: "Çfarë mendoni për këtë portfolio?",
@@ -672,6 +693,50 @@ const submitFeedback = async (type) => {
               <span key={tech}>{tech}</span>
             ))}
           </div>
+
+
+<div className="project-gallery">
+  <div className="project-gallery-heading">
+    <div>
+      <span className="project-gallery-label">
+        {t.project.screenshots}
+      </span>
+     
+      <h3>{t.project.screenshotsTitle}</h3>
+
+      <p>{t.project.screenshotsDescription}</p>
+    </div>
+</div>
+
+  <div className="project-gallery-grid">
+    {Object.entries(projectImages).map(([path, image], index) => {
+      const fileName = path
+        .split("/")
+        .pop()
+        .replace(/\.[^/.]+$/, "")
+        .replace(/[-_]/g, " ");
+
+      return (
+        <div
+          className={`project-image-card ${
+            index === 0 ? "project-image-large" : ""
+          }`}
+          key={path}
+        >
+          <img
+            src={image}
+            alt={`Beauty Salon ${fileName}`}
+          />
+
+          <div className="project-image-overlay">
+            <span>{fileName}</span>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
 
           <div className="project-body">
             <div className="project-column">
