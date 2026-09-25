@@ -30,7 +30,7 @@ export default function Main() {
     cv: "/Amin_Bislimaj_CV (5).pdf",
   };
 
-  const [language, setLanguage] = useState("sq");
+  const [language, setLanguage] = useState("en");
 
   const [feedback, setFeedback] = useState({
   approve: 0,
