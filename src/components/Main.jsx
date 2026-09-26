@@ -28,7 +28,7 @@ const [selectedImage, setSelectedImage] = useState(null);
     demoClient: "https://beautysalonclient.aminbislimaj.com",
     demoAdmin: "https://beautysalonadmin.aminbislimaj.com",
 
-    cv: "/Amin_Bislimaj_CV (5).pdf",
+    cv: "/Amin_Bislimaj_CV_EN_SQ.pdf",
   };
 
   const [language, setLanguage] = useState("en");
