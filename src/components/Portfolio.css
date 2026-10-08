@@ -2107,3 +2107,256 @@ footer {
     opacity: 1;
   }
 }
+
+/* =====================================================
+   POLISH LAYER — paste at the very END of Portfolio.css
+   (keeps all your existing styles; overrides where needed)
+===================================================== */
+
+::selection {
+  background: var(--accent-light);
+  color: var(--text);
+}
+
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Sticky, blurred header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  background: rgba(247, 247, 245, 0.82);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid rgba(229, 231, 228, 0.7);
+}
+
+.navbar {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+/* Keyboard focus */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Hero headline: it's a longer sentence now, so tune the scale */
+.hero h1 {
+  font-size: clamp(40px, 5.2vw, 70px);
+  line-height: 1.04;
+  letter-spacing: -3px;
+  text-wrap: balance;
+}
+
+.hero-description {
+  max-width: 640px;
+}
+
+/* Hero card stats */
+.hero-stats {
+  margin: 26px 0 0;
+  padding-top: 22px;
+
+  display: grid;
+  gap: 16px;
+
+  border-top: 1px solid var(--border);
+}
+
+.hero-stats div {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.hero-stats dt {
+  min-width: 96px;
+
+  font-family: "Manrope", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  color: var(--text);
+}
+
+.hero-stats dd {
+  margin: 0;
+
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Section headings without numbering */
+.section-heading {
+  margin-bottom: 44px;
+}
+
+.section-heading h2 {
+  font-size: 36px;
+}
+
+/* Skill cards: no number, calmer */
+.skill-card-top {
+  margin-bottom: 20px;
+}
+
+.skill-list span {
+  background: #fafaf9;
+}
+
+/* Approval button feedback */
+.hero-feedback {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.hero-approve-button.disabled {
+  opacity: 1;
+  background: var(--accent-light);
+  border-color: #cfdad3;
+  color: var(--accent);
+}
+
+.hero-approve-button:disabled:not(.disabled) {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.feedback-message {
+  margin: 0;
+}
+
+.feedback-message.error {
+  color: #a4453a;
+}
+
+/* Project: highlights block */
+.project-highlights {
+  padding: 38px 45px;
+  border-top: 1px solid #303633;
+}
+
+.project-highlights h3 {
+  margin: 0 0 22px;
+
+  font-family: "Manrope", sans-serif;
+  font-size: 17px;
+}
+
+.project-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.project-highlight {
+  padding: 20px;
+
+  border: 1px solid #303633;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.project-highlight strong {
+  display: block;
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  color: #eef1ee;
+}
+
+.project-highlight p {
+  margin: 0;
+
+  color: #9aa19c;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+/* Gallery cards are now <button>s: reset native styles */
+button.project-image-card {
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  appearance: none;
+}
+
+/* Captions: sentence case, not shouty */
+.project-label,
+.project-gallery-label {
+  text-transform: none;
+  letter-spacing: 0.4px;
+  font-size: 12px;
+}
+
+.hero-card-label,
+.experience-type {
+  text-transform: none;
+  letter-spacing: 0.3px;
+  font-size: 12px;
+}
+
+/* Tablet / mobile */
+@media (max-width: 1000px) {
+  .project-highlights {
+    padding-left: 38px;
+    padding-right: 38px;
+  }
+}
+
+@media (max-width: 700px) {
+  section[id] {
+    scroll-margin-top: 64px;
+  }
+
+  .navbar {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-size: clamp(34px, 9.5vw, 46px);
+    letter-spacing: -2px;
+  }
+
+  .section-heading h2 {
+    font-size: 28px;
+  }
+
+  .project-highlights {
+    padding: 25px 20px;
+  }
+
+  .project-highlights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-feedback {
+    align-items: stretch;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
