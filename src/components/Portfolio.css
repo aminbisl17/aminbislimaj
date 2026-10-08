@@ -2369,12 +2369,12 @@ button.project-image-card {
 
 .nav-logo {
   display: block;
-  height: 64px;
+  height: 120px;   /* desktop */
   width: auto;
 }
 
 @media (max-width: 700px) {
   .nav-logo {
-    height: 44px;
+    height: 44px;  /* mobile only */
   }
 }

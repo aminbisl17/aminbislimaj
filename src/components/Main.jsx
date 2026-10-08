@@ -301,7 +301,7 @@ const translations = {
 export default function Main() {
   const [language, setLanguage] = useState("en");
   const [selectedImage, setSelectedImage] = useState(null);
-
+const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [feedback, setFeedback] = useState({ approve: 0, disapprove: 0 });
   const [hasVoted, setHasVoted] = useState(false);
   const [feedbackLoading, setFeedbackLoading] = useState(true);
@@ -380,54 +380,128 @@ export default function Main() {
   return (
     <main className="portfolio">
       {/* NAVIGATION */}
-      <header className="site-header">
-        <nav className="navbar" aria-label="Main">
-         
-         <a href="#top" className="nav-brand" aria-label="Amin Bislimaj, home">
+  
+  <header className="site-header">
+  <nav className="navbar" aria-label="Main">
 
-<img
+    <a href="#top" className="nav-brand" aria-label="Amin Bislimaj, home">
+     <img
   src="/favicon-dark-large.svg"
   alt="Amin Bislimaj"
   className="nav-logo"
-  style={{ height: 120, width: "auto" }}   // or 108, 120, etc.
 />
-</a>
+    </a>
 
-          <div className="nav-links">
-            <a href="#about">{t.nav.about}</a>
-            <a href="#skills">{t.nav.skills}</a>
-            <a href="#project">{t.nav.project}</a>
-            <a href="#experience">{t.nav.experience}</a>
-            <a href="#contact">{t.nav.contact}</a>
-          </div>
+    {/* Desktop navigation */}
+    <div className="nav-links">
+      <a href="#about">{t.nav.about}</a>
+      <a href="#skills">{t.nav.skills}</a>
+      <a href="#project">{t.nav.project}</a>
+      <a href="#experience">{t.nav.experience}</a>
+      <a href="#contact">{t.nav.contact}</a>
+    </div>
 
-          <div className="nav-right">
-            <div className="language-switcher" role="group" aria-label="Language">
-              <button
-                className={language === "en" ? "active" : ""}
-                onClick={() => setLanguage("en")}
-                aria-pressed={language === "en"}
-                type="button"
-              >
-                EN
-              </button>
-              <span aria-hidden="true">/</span>
-              <button
-                className={language === "sq" ? "active" : ""}
-                onClick={() => setLanguage("sq")}
-                aria-pressed={language === "sq"}
-                type="button"
-              >
-                AL
-              </button>
-            </div>
+    <div className="nav-right">
+      <div className="language-switcher" role="group" aria-label="Language">
+        <button
+          className={language === "en" ? "active" : ""}
+          onClick={() => setLanguage("en")}
+          aria-pressed={language === "en"}
+          type="button"
+        >
+          EN
+        </button>
 
-            <a href={profile.cv} target="_blank" rel="noreferrer" className="nav-cv">
-              {t.nav.cv} ↗
-            </a>
-          </div>
-        </nav>
-      </header>
+        <span aria-hidden="true">/</span>
+
+        <button
+          className={language === "sq" ? "active" : ""}
+          onClick={() => setLanguage("sq")}
+          aria-pressed={language === "sq"}
+          type="button"
+        >
+          AL
+        </button>
+      </div>
+
+      <a
+        href={profile.cv}
+        target="_blank"
+        rel="noreferrer"
+        className="nav-cv"
+      >
+        {t.nav.cv} ↗
+      </a>
+    </div>
+
+    {/* Mobile button */}
+    <button
+      className="mobile-menu-button"
+      type="button"
+      aria-label="Open navigation"
+      onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+    >
+      ☰
+    </button>
+
+  </nav>
+
+  {/* Mobile navigation */}
+  {mobileMenuOpen && (
+    <div className="mobile-menu">
+      <a href="#about" onClick={() => setMobileMenuOpen(false)}>
+        {t.nav.about}
+      </a>
+
+      <a href="#skills" onClick={() => setMobileMenuOpen(false)}>
+        {t.nav.skills}
+      </a>
+
+      <a href="#project" onClick={() => setMobileMenuOpen(false)}>
+        {t.nav.project}
+      </a>
+
+      <a href="#experience" onClick={() => setMobileMenuOpen(false)}>
+        {t.nav.experience}
+      </a>
+
+      <a href="#contact" onClick={() => setMobileMenuOpen(false)}>
+        {t.nav.contact}
+      </a>
+
+      <div className="mobile-menu-bottom">
+        <div className="language-switcher">
+          <button
+            className={language === "en" ? "active" : ""}
+            onClick={() => setLanguage("en")}
+            type="button"
+          >
+            EN
+          </button>
+
+          <span>/</span>
+
+          <button
+            className={language === "sq" ? "active" : ""}
+            onClick={() => setLanguage("sq")}
+            type="button"
+          >
+            AL
+          </button>
+        </div>
+
+        <a
+          href={profile.cv}
+          target="_blank"
+          rel="noreferrer"
+          className="nav-cv"
+        >
+          {t.nav.cv} ↗
+        </a>
+      </div>
+    </div>
+  )}
+</header>
 
       {/* HERO */}
       <section className="hero" id="top">
