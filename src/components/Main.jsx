@@ -382,9 +382,16 @@ export default function Main() {
       {/* NAVIGATION */}
       <header className="site-header">
         <nav className="navbar" aria-label="Main">
-          <a href="#top" className="nav-brand" aria-label="Amin Bislimaj, home">
-            AB<span>.</span>
-          </a>
+         
+         <a href="#top" className="nav-brand" aria-label="Amin Bislimaj, home">
+
+<img
+  src="/favicon-dark-large.svg"
+  alt="Amin Bislimaj"
+  className="nav-logo"
+  style={{ height: 120, width: "auto" }}   // or 108, 120, etc.
+/>
+</a>
 
           <div className="nav-links">
             <a href="#about">{t.nav.about}</a>

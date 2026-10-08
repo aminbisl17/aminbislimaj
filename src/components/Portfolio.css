@@ -43,6 +43,12 @@ button {
   overflow-x: hidden;
 }
 
+@supports (overflow: clip) {
+  .portfolio {
+    overflow-x: clip;
+  }
+}
+
 /* =========================
    NAVBAR
 ========================= */
@@ -2358,5 +2364,17 @@ button.project-image-card {
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+.nav-logo {
+  display: block;
+  height: 64px;
+  width: auto;
+}
+
+@media (max-width: 700px) {
+  .nav-logo {
+    height: 44px;
   }
 }
