@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import "./tenantssection.css";
 
 // Base URL of the Beauty Salon backend, e.g. VITE_BEAUTYSALON_API_URL=https://api.example.com
-// Leave empty to call the same origin (works if you proxy /tenants).
-const API_BASE = import.meta.env.VITE_BEAUTYSALON_API_URL ?? "";
 
-// Add more projects here later; each one only needs an id, a name and the URL that returns its tenants.
+const API_BASE = (
+  import.meta.env.VITE_BEAUTYSALON_API_URL ??
+  "https://beautysalon-amin-2026-ghfzbxbqcvdfb2hf.austriaeast-01.azurewebsites.net"
+).replace(/\/+$/, "");
+
 const projects = [
   {
     id: "beautysalon",
     name: "Beauty Salon SaaS",
-    tenantsUrl: `${API_BASE}`,
+    tenantsUrl: `${API_BASE}/tenants`,
   },
 ];
 
