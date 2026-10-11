@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Portfolio.css";
+import TenantsSection from "./tenantssection";
 
 const projectImages = import.meta.glob(
   "../assets/project/*.{png,jpg,jpeg,webp}",
@@ -49,6 +50,7 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
         about: "About",
         skills: "Skills",
         project: "Project",
+        tenants: "Tenants",  
         experience: "Experience",
         contact: "Contact",
         cv: "View CV",
@@ -91,6 +93,14 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
         p3:
           "I enjoy understanding how the different parts of a system communicate and turning real business requirements into working software.",
       },
+
+      tenants: {
+  title: "Tenants", project: "Project", tenantsLabel: "Tenants", details: "Details",
+  select: "Select a tenant to see its details.", loading: "Loading tenants…",
+  error: "Could not load tenants.", empty: "No tenants yet.",
+  domain: "Domain", key: "Tenant key", statusLabel: "Status", created: "Created",
+  active: "Active", inactive: "Inactive", open: "Open site",
+},
 
       project: {
         label: "01 / MAIN PROJECT",
@@ -198,6 +208,7 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
         about: "Rreth meje",
         skills: "Aftësitë",
         project: "Projekti",
+         tenants: "Tenantët",  
         experience: "Përvoja",
         contact: "Kontakt",
         cv: "Shiko CV-në",
@@ -238,6 +249,14 @@ const [feedbackMessage, setFeedbackMessage] = useState("");
         p3:
           "Më pëlqen të kuptoj se si komunikojnë pjesët e ndryshme të një sistemi dhe t'i shndërroj kërkesat reale të biznesit në softuer funksional.",
       },
+
+      tenants: {
+  title: "Tenantët", project: "Projekti", tenantsLabel: "Tenantët", details: "Detajet",
+  select: "Zgjidh një tenant për të parë detajet.", loading: "Duke ngarkuar tenantët…",
+  error: "Tenantët nuk u ngarkuan.", empty: "Ende nuk ka tenantë.",
+  domain: "Domeni", key: "Çelësi i tenant-it", statusLabel: "Statusi", created: "Krijuar",
+  active: "Aktiv", inactive: "Joaktiv", open: "Hap faqen",
+},
 
       project: {
         label: "01 / PROJEKTI KRYESOR",
@@ -466,6 +485,7 @@ const submitFeedback = async (type) => {
           <a href="#about">{t.nav.about}</a>
           <a href="#skills">{t.nav.skills}</a>
           <a href="#project">{t.nav.project}</a>
+          <a href="#tenants">{t.nav.tenants}</a>
           <a href="#experience">{t.nav.experience}</a>
           <a href="#contact">{t.nav.contact}</a>
         </div>
@@ -794,10 +814,12 @@ const submitFeedback = async (type) => {
         </div>
       </section>
 
+      <TenantsSection t={t} language={language} number="04" />
+
       {/* EXPERIENCE */}
       <section className="section" id="experience">
         <div className="section-heading">
-          <span className="section-number">04</span>
+          <span className="section-number">05</span>
           <h2>{t.sections.experience}</h2>
         </div>
 
@@ -829,7 +851,7 @@ const submitFeedback = async (type) => {
       {/* EDUCATION */}
       <section className="section compact-section">
         <div className="section-heading">
-          <span className="section-number">05</span>
+          <span className="section-number">06</span>
           <h2>{t.sections.education}</h2>
         </div>
 
@@ -846,7 +868,7 @@ const submitFeedback = async (type) => {
       {/* CONTACT */}
       <section className="contact-section" id="contact">
         <div className="contact-inner">
-          <span className="section-number">06</span>
+          <span className="section-number">07</span>
 
           <h2>
             {t.contact.titleFirst}
