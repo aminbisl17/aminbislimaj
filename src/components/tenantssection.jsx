@@ -10,7 +10,7 @@ const projects = [
   {
     id: "beautysalon",
     name: "Beauty Salon SaaS",
-    tenantsUrl: `${API_BASE}/tenants`,
+    tenantsUrl: `${API_BASE}`,
   },
 ];
 
