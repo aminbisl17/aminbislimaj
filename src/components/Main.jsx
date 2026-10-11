@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Portfolio.css";
-import TenantsSection from "./tenantssection";
+import TenantsPage from "./tenantssection";
 
 const projectImages = import.meta.glob(
   "../assets/project/*.{png,jpg,jpeg,webp}",
@@ -74,13 +74,7 @@ const translations = {
       about: "About me", skills: "Technical skills", project: "Featured project",
       experience: "Experience", education: "Education", contact: "Contact",
     },
-    tenants: {
-      title: "Tenants", project: "Project", tenantsLabel: "Tenants", details: "Details",
-      select: "Select a tenant to see its details.", loading: "Loading tenants…",
-      error: "Could not load tenants.", empty: "No tenants yet.",
-      domain: "Domain", key: "Tenant key", statusLabel: "Status", created: "Created",
-      active: "Active", inactive: "Inactive", open: "Open site",
-    },
+
     about: {
       large:
         "I'm a self-taught developer focused on backend development and software architecture.",
@@ -209,13 +203,7 @@ const translations = {
       about: "Rreth meje", skills: "Aftësitë teknike", project: "Projekti kryesor",
       experience: "Përvoja", education: "Edukimi", contact: "Kontakt",
     },
-    tenants: {
-      title: "Tenantët", project: "Projekti", tenantsLabel: "Tenantët", details: "Detajet",
-      select: "Zgjidh një tenant për të parë detajet.", loading: "Duke ngarkuar tenantët…",
-      error: "Tenantët nuk u ngarkuan.", empty: "Ende nuk ka tenantë.",
-      domain: "Domeni", key: "Çelësi i tenant-it", statusLabel: "Statusi", created: "Krijuar",
-      active: "Aktiv", inactive: "Joaktiv", open: "Hap faqen",
-    },
+
     about: {
       large:
         "Jam zhvillues i vetë-mësuar me fokus në zhvillimin backend dhe arkitekturën softuerike.",
@@ -358,6 +346,7 @@ export default function Main() {
       .finally(() => setFeedbackLoading(false));
   }, []);
 
+    
   const submitFeedback = async (type) => {
     if (hasVoted || feedbackLoading) return;
 
@@ -412,7 +401,6 @@ export default function Main() {
             <a href="#about">{t.nav.about}</a>
             <a href="#skills">{t.nav.skills}</a>
             <a href="#project">{t.nav.project}</a>
-            <a href="#tenants">{t.nav.tenants}</a>
             <a href="#experience">{t.nav.experience}</a>
             <a href="#contact">{t.nav.contact}</a>
           </div>
@@ -773,9 +761,6 @@ export default function Main() {
           </div>
         </div>
       </section>
-
-      {/* TENANTS */}
-      <TenantsSection t={t} language={language} />
 
       {/* EXPERIENCE */}
       <section className="section" id="experience">
