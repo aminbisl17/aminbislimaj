@@ -1,0 +1,216 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+:root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --text: #171a1d;
+    --muted: #6d736f;
+    --border: #e5e7e4;
+    --accent: #526b5b;
+    --accent-light: #e7eee9;
+}
+
+/* Page */
+
+.verification-white {
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+}
+
+.verification-page {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+    box-sizing: border-box;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Verification panel */
+
+.verification-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 42px;
+    box-sizing: border-box;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 20px 60px rgba(25, 30, 27, 0.04);
+    text-align: left;
+    animation: verificationFadeIn 0.3s ease-out;
+}
+
+/* Heading */
+
+.verification-card h2 {
+    margin: 0 0 14px;
+    font-family: "Manrope", sans-serif;
+    font-size: 30px;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -1.1px;
+    color: var(--text);
+}
+
+.verification-card > p {
+    margin: 0 0 28px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* OTP input */
+
+.otp-input {
+    display: block;
+    width: 100%;
+    min-height: 60px;
+    padding: 12px 14px;
+    box-sizing: border-box;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+
+    background: #fafaf9;
+    color: var(--text);
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 9px;
+    text-align: center;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.otp-input:focus {
+    border-color: var(--accent);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px rgba(82, 107, 91, 0.10);
+}
+
+.otp-input::placeholder {
+    color: #c4c8c5;
+    opacity: 1;
+}
+
+/* Status and error */
+
+.otp-status,
+.verification-card > p.otp-status {
+    margin: 16px 0 0;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.otp-error,
+.verification-card > p.otp-error {
+    margin: 16px 0 0;
+    color: #a4453a;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Verified view */
+
+.next-view {
+    margin-top: 24px;
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* Animation */
+
+@keyframes verificationFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tablet and mobile */
+
+@media (max-width: 700px) {
+    .verification-page {
+        padding: 24px 20px;
+    }
+
+    .verification-card {
+        max-width: 460px;
+        padding: 30px 24px;
+        border-radius: 17px;
+    }
+
+    .verification-card h2 {
+        font-size: 27px;
+        letter-spacing: -0.8px;
+    }
+
+    .verification-card > p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .otp-input {
+        min-height: 56px;
+        font-size: 23px;
+        letter-spacing: 7px;
+    }
+}
+
+/* Small phones */
+
+@media (max-width: 380px) {
+    .verification-page {
+        padding: 18px 16px;
+    }
+
+    .verification-card {
+        padding: 25px 20px;
+        border-radius: 14px;
+    }
+
+    .verification-card h2 {
+        font-size: 24px;
+    }
+
+    .otp-input {
+        font-size: 21px;
+        letter-spacing: 5px;
+    }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+    .verification-card {
+        animation: none;
+    }
+
+    .otp-input {
+        transition: none;
+    }
+}

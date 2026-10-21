@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./Portfolio.css";
-import TenantsPage from "./tenantssection";
 
 const projectImages = import.meta.glob(
   "../assets/project/*.{png,jpg,jpeg,webp}",
@@ -436,6 +435,11 @@ export default function Main() {
             >
               {t.nav.cv} ↗
             </a>
+
+            <a href="/company" className="nav-login" aria-label="Admin login">
+  Login
+</a>
+
           </div>
 
           {/* Mobile button */}
@@ -505,6 +509,14 @@ export default function Main() {
               >
                 {t.nav.cv} ↗
               </a>
+
+                <a
+    href="/company"
+    className="nav-login"
+    onClick={() => setMobileMenuOpen(false)}
+  >
+    Login
+  </a>
             </div>
           </div>
         )}
