@@ -305,7 +305,7 @@ export default function LoginVerification() {
                 isActive: true,
             };
 
-            const response = await fetch(`${API}/tenants`, {
+            const response = await fetch(`${API}/tenants/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
