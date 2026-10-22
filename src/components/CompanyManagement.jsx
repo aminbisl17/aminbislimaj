@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import "./CompanyManagement.css";
-
+   import { LockKeyhole, ShieldCheck } from "lucide-react";
 const API =
     "https://beautysalon-amin-2026-ghfzbxbqcvdfb2hf.austriaeast-01.azurewebsites.net";
 
@@ -237,15 +237,15 @@ export default function LoginVerification() {
     }, [showRegister, registering]);
 
     /* ---------- Handlers ---------- */
-    const handleOtpChange = async (e) => {
-        const value = e.target.value.replace(/\D/g, "").slice(0, 6);
+   const handleOtpChange = async (rawValue) => {
+    const value = String(rawValue).replace(/\D/g, "").slice(0, 6);
 
-        setOtp(value);
-        setOtpError("");
+    setOtp(value);
+    setOtpError("");
 
-        if (value.length !== 6 || verifying || sendingOtp) return;
+    if (value.length !== 6 || verifying || sendingOtp) return;
 
-        setVerifying(true);
+    setVerifying(true);
 
         try {
             const response = await fetch(`${API}/auth/verify-otp`, {
@@ -400,10 +400,10 @@ export default function LoginVerification() {
                     <div className="cm-modal-drag-handle" />
 
                     <div className="cm-otp-header">
-                        <div className="cm-otp-icon" aria-hidden="true">
-                            <icon name="lock-keyhole" size="26px" />
-                        </div>
-
+                      
+                      <div className="cm-otp-icon" aria-hidden="true">
+    <LockKeyhole size={26} />
+</div>
                         <span className="cm-otp-eyebrow">
                             SECURE ACCESS
                         </span>
@@ -474,9 +474,9 @@ export default function LoginVerification() {
                     <div className="cm-otp-divider" />
 
                     <div className="cm-otp-footer">
-                        <span className="cm-otp-secure-icon">
-                            <icon name="shield-check" size="16px" />
-                        </span>
+<span className="cm-otp-secure-icon">
+    <ShieldCheck size={16} />
+</span>
                         Secure administrator access
                     </div>
 
