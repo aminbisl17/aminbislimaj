@@ -1,19 +1,35 @@
 import { useState } from "react";
+import { QRCodeSVG } from "qrcode.react";
 import "./TenantManagement.css";
 
 const API_URL = import.meta.env.VITE_BEAUTYSALON_API_URL;
 const LOGIN_URL = `${API_URL}/auth/login/company`;
 
 export default function Login() {
-  const [form, setForm] = useState({ username: "", password: "" });
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+  });
+
   const [showPassword, setShowPassword] = useState(false);
-  const [status, setStatus] = useState("idle"); // idle | loading | error
+  const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
+  // New: OTP and QR authentication
+  const [otp, setOtp] = useState("");
+  const [showQr, setShowQr] = useState(true);
+
+  const qrPayload = JSON.stringify({
+    username: form.username.trim(),
+    otp,
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setForm((prev) => ({ ...prev, [name]: value }));
+
     if (status === "error") {
       setStatus("idle");
       setMessage("");
@@ -22,28 +38,25 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (status === "loading") return;
 
     setStatus("loading");
     setMessage("");
+    setOtp("");
 
     try {
       const res = await fetch(LOGIN_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // needed if your backend sets a session cookie
+        credentials: "include",
         body: JSON.stringify({
           username: form.username.trim(),
           password: form.password,
         }),
       });
 
-      let data = {};
-      try {
-        data = await res.json();
-      } catch {
-        // response had no JSON body
-      }
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
         throw new Error(
@@ -54,99 +67,167 @@ export default function Login() {
         );
       }
 
-      // If your backend returns a token, store it here, e.g.:
-      // localStorage.setItem("token", data.token);
+      if (!data.otp) {
+        throw new Error("The server did not return an OTP.");
+      }
 
+      setOtp(String(data.otp));
       setStatus("idle");
-      setLoggedIn(true); // switch to the blank view
     } catch (err) {
       setStatus("error");
       setMessage(
         err instanceof TypeError
-          ? "Can't reach the server. Check your connection and try again."
+          ? "Can't reach the server. Check your connection."
           : err.message
       );
     }
   };
 
-  // Blank view shown after a successful login. Put your content in here later.
   if (loggedIn) {
     return <main className="blank-view" />;
   }
 
   const isLoading = status === "loading";
-  const canSubmit = form.username.trim() && form.password && !isLoading;
+  const canSubmit =
+    form.username.trim() && form.password && !isLoading;
 
   return (
     <main className="login-page">
       <div className="login-card">
-        <div className="login-label">Admin access</div>
-        <h1>Sign in</h1>
-        <p className="login-subtitle">
-          Enter your username and password to continue.
-        </p>
+        {!otp ? (
+          <>
+            <div className="login-label">Admin access</div>
+            <h1>Sign in</h1>
 
-        <form onSubmit={handleSubmit} noValidate>
-          <div className="login-field">
-            <label htmlFor="username">Username</label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              autoComplete="username"
-              autoFocus
-              value={form.username}
-              onChange={handleChange}
-              disabled={isLoading}
-              aria-invalid={status === "error"}
-            />
-          </div>
+            <p className="login-subtitle">
+              Enter your username and password to continue.
+            </p>
 
-          <div className="login-field">
-            <label htmlFor="password">Password</label>
-            <div className="login-password">
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
-                value={form.password}
-                onChange={handleChange}
-                disabled={isLoading}
-                aria-invalid={status === "error"}
-              />
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="login-field">
+                <label htmlFor="username">Username</label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  autoFocus
+                  value={form.username}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  required
+                />
+              </div>
+
+              <div className="login-field">
+                <label htmlFor="password">Password</label>
+
+                <div className="login-password">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    value={form.password}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    className="login-toggle"
+                    onClick={() =>
+                      setShowPassword((value) => !value)
+                    }
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
+              </div>
+
+              <p
+                className={`login-message ${
+                  status === "error" ? "error" : ""
+                }`}
+                role="alert"
+              >
+                {message}
+              </p>
+
+              <button
+                type="submit"
+                className="button button-dark login-submit"
+                disabled={!canSubmit}
+              >
+                {isLoading ? "Signing in…" : "Sign in"}
+              </button>
+            </form>
+
+            <a href="/" className="login-back">
+              Back to portfolio
+            </a>
+          </>
+        ) : (
+          <section className="login-otp">
+            <div className="login-label">Secure verification</div>
+            <h1>Verify your login</h1>
+
+            <p className="login-subtitle">
+              Scan this QR code with your BeautySalon mobile app,
+              or use the displayed verification code.
+            </p>
+
+            <div className="login-code-box">
+              <span>Verification code</span>
+              <strong>{otp}</strong>
+            </div>
+
+            <div className="login-qr-toggle">
               <button
                 type="button"
-                className="login-toggle"
-                onClick={() => setShowPassword((v) => !v)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                aria-pressed={showPassword}
+                className="button button-dark login-submit"
+                onClick={() => setShowQr((value) => !value)}
               >
-                {showPassword ? "Hide" : "Show"}
+                {showQr ? "Hide QR code" : "Show QR code"}
               </button>
             </div>
-          </div>
 
-          <p
-            className={`login-message ${status === "error" ? "error" : ""}`}
-            role="alert"
-            aria-live="polite"
-          >
-            {message}
-          </p>
+            {showQr && (
+              <div className="login-qr-box">
+                <QRCodeSVG
+                  value={qrPayload}
+                  size={220}
+                  level="M"
+                  marginSize={3}
+                  title="BeautySalon login verification QR code"
+                />
 
-          <button
-            type="submit"
-            className="button button-dark login-submit"
-            disabled={!canSubmit}
-          >
-            {isLoading ? "Signing in…" : "Sign in"}
-          </button>
-        </form>
+                <p>Open the mobile app and scan this code.</p>
+              </div>
+            )}
 
-        <a href="/" className="login-back">
-          Back to portfolio
-        </a>
+            <p className="login-subtitle login-account">
+              Account: <strong>{form.username}</strong>
+            </p>
+
+            <p className="login-message" role="status">
+              Waiting for mobile verification.
+            </p>
+
+            <button
+              type="button"
+              className="login-back-button"
+              onClick={() => {
+                setOtp("");
+                setMessage("");
+                setStatus("idle");
+              }}
+            >
+              Back to sign in
+            </button>
+          </section>
+        )}
       </div>
     </main>
   );
