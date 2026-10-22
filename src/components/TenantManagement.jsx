@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./TenantManagement.css";
 
 const API_URL = import.meta.env.VITE_BEAUTYSALON_API_URL;
-const LOGIN_URL = `${API_URL}/auth/login`;
+const LOGIN_URL = `${API_URL}/auth/login/company`;
 
 export default function Login() {
   const [form, setForm] = useState({ username: "", password: "" });
