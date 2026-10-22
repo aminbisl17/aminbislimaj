@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import "./CompanyManagement.css";
    import { LockKeyhole, ShieldCheck } from "lucide-react";
-const API =
-    "https://beautysalon-amin-2026-ghfzbxbqcvdfb2hf.austriaeast-01.azurewebsites.net";
+
+   const API = import.meta.env.VITE_BEAUTYSALON_API_URL;
 
 const TOKEN_KEY = "accessToken";
 

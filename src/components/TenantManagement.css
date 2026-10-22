@@ -1,0 +1,279 @@
+/* Login.css
+   Uses the same tokens as Portfolio.css (--bg, --surface, --text, --muted,
+   --border, --accent, --accent-light, --dark). Fallbacks are included so the
+   page still looks right if Portfolio.css isn't loaded on this route. */
+
+.login-page {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --text: #171a1d;
+  --muted: #6d736f;
+  --border: #e5e7e4;
+  --accent: #526b5b;
+  --accent-light: #e7eee9;
+  --dark: #171a1d;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 40px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--bg);
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 40px;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 20px 60px rgba(25, 30, 27, 0.05);
+}
+
+.login-label {
+  margin-bottom: 18px;
+
+  color: #999f9b;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.login-card h1 {
+  margin: 0;
+
+  font-family: "Manrope", sans-serif;
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  font-weight: 800;
+}
+
+.login-subtitle {
+  margin: 12px 0 30px;
+
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ---------- Fields ---------- */
+
+.login-field {
+  margin-bottom: 18px;
+}
+
+.login-field label {
+  display: block;
+  margin-bottom: 8px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.login-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-field input:hover:not(:disabled) {
+  border-color: #d7dfda;
+}
+
+.login-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.login-field input:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.login-field input[aria-invalid="true"] {
+  border-color: #a4453a;
+}
+
+.login-password {
+  position: relative;
+}
+
+.login-password input {
+  padding-right: 70px;
+}
+
+.login-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+
+  padding: 7px 10px;
+
+  border: none;
+  border-radius: 100px;
+
+  background: transparent;
+  color: var(--muted);
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.login-toggle:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.login-toggle:focus-visible,
+.login-back:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ---------- Message ---------- */
+
+.login-message {
+  min-height: 20px;
+  margin: 0 0 14px;
+
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.login-message.error {
+  color: #a4453a;
+}
+
+/* ---------- Submit ---------- */
+
+.login-submit {
+  width: 100%;
+  min-height: 50px;
+  border: none;
+  cursor: pointer;
+}
+
+.login-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Fallbacks in case Portfolio.css .button styles aren't loaded here */
+.login-submit.button {
+  padding: 0 21px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--dark);
+  color: #fff;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.login-submit.button:hover:not(:disabled) {
+  background: #2a2e31;
+  transform: translateY(-2px);
+}
+
+.login-back {
+  display: block;
+  margin-top: 22px;
+
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.login-back:hover {
+  color: var(--text);
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 700px) {
+  .login-page {
+    padding: 24px 16px;
+    align-items: flex-start;
+  }
+
+  .login-card {
+    padding: 28px 22px;
+    border-radius: 17px;
+  }
+
+  .login-card h1 {
+    font-size: 28px;
+    letter-spacing: -1px;
+  }
+
+  /* 16px prevents iOS Safari zooming on focus */
+  .login-field input {
+    font-size: 16px;
+  }
+}
+
+@media (hover: none) {
+  .login-submit.button:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-page *,
+  .login-page *::before,
+  .login-page *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Blank view (after successful login) ---------- */
+
+.blank-view {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #f7f7f5;
+}

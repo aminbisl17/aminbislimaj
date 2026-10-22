@@ -44,11 +44,12 @@ const skills = {
 
 const translations = {
   en: {
-    nav: {
-      about: "About", skills: "Skills", project: "Project",
-      tenants: "Tenants",
-      experience: "Experience", contact: "Contact", cv: "View CV",
-    },
+  nav: {
+  about: "About", skills: "Skills", project: "Project",
+  tenants: "Tenants",
+  experience: "Experience", contact: "Contact", cv: "View CV",
+  login: "Login",
+},
     hero: {
       available: "Open to backend developer roles",
       titleFirst: "I build",
@@ -90,8 +91,9 @@ const translations = {
         "Interface images from the web, mobile and desktop applications. Select an image to enlarge it.",
       description:
         "A multi-tenant platform for running beauty salons: appointments, staff, services, clients and availability, kept in sync across web, mobile and desktop.",
-      client: "Client web ↗",
-      admin: "Admin web ↗",
+        client: "Client web ↗",
+  admin: "Admin web ↗",
+  getKey: "Get key",
       highlightsTitle: "Engineering highlights",
       highlights: [
         {
@@ -173,11 +175,13 @@ const translations = {
   },
 
   sq: {
-    nav: {
-      about: "Rreth meje", skills: "Aftësitë", project: "Projekti",
-      tenants: "Tenantët",
-      experience: "Përvoja", contact: "Kontakt", cv: "Shiko CV-në",
-    },
+
+  nav: {
+  about: "Rreth meje", skills: "Aftësitë", project: "Projekti",
+  tenants: "Tenantët",
+  experience: "Përvoja", contact: "Kontakt", cv: "Shiko CV-në",
+  login: "Hyr",
+},
     hero: {
       available: "I hapur për pozita Backend Developer",
       titleFirst: "Ndërtoj",
@@ -221,6 +225,7 @@ const translations = {
         "Platformë multi-tenant për menaxhimin e salloneve të bukurisë: terminet, punonjësit, shërbimet, klientët dhe disponueshmëria, të sinkronizuara mes web, mobile dhe desktop.",
       client: "Client web ↗",
       admin: "Admin web ↗",
+        getKey: "Merr çelësin",
       highlightsTitle: "Pikat kryesore teknike",
       highlights: [
         {
@@ -437,7 +442,7 @@ export default function Main() {
             </a>
 
             <a href="/company" className="nav-login" aria-label="Admin login">
-  Login
+ {t.nav.login}
 </a>
 
           </div>
@@ -466,10 +471,6 @@ export default function Main() {
 
             <a href="#project" onClick={() => setMobileMenuOpen(false)}>
               {t.nav.project}
-            </a>
-
-            <a href="#tenants" onClick={() => setMobileMenuOpen(false)}>
-              {t.nav.tenants}
             </a>
 
             <a href="#experience" onClick={() => setMobileMenuOpen(false)}>
@@ -515,7 +516,7 @@ export default function Main() {
     className="nav-login"
     onClick={() => setMobileMenuOpen(false)}
   >
-    Login
+    {t.nav.login}
   </a>
             </div>
           </div>
@@ -653,6 +654,10 @@ export default function Main() {
               <a href={profile.demoAdmin} target="_blank" rel="noreferrer" className="project-button secondary">
                 {t.project.admin}
               </a>
+
+                <a href="/tenants" className="project-button secondary">
+               {t.project.getKey}
+  </a>
             </div>
           </div>
 
