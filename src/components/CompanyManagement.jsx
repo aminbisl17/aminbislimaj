@@ -4,6 +4,15 @@ import "./CompanyManagement.css";
 const API =
     "https://beautysalon-amin-2026-ghfzbxbqcvdfb2hf.austriaeast-01.azurewebsites.net";
 
+    const getAuthHeaders = () => {
+    const accessToken = sessionStorage.getItem("accessToken");
+
+    return accessToken
+        ? { Authorization: `Bearer ${accessToken}` }
+        : {};
+};
+
+
 export default function LoginVerification() {
     const [view, setView] = useState("otp");
     const [otp, setOtp] = useState("");
@@ -54,29 +63,38 @@ export default function LoginVerification() {
     }, []);
 
     useEffect(() => {
-        const sendLoginRequest = async () => {
-            try {
-                const response = await fetch(`${API}/auth/login`, {
-                    method: "POST",
-                    credentials: "include",
-                });
+    const savedToken = sessionStorage.getItem("accessToken");
 
-                if (!response.ok) {
-                    throw new Error("Failed to send OTP.");
-                }
+    if (savedToken) {
+        setView("dashboard");
+        setSendingOtp(false);
+        return;
+    }
 
-                setError("");
-            } catch {
-                setError(
-                    "Failed to send the verification code. Please refresh the page and try again."
-                );
-            } finally {
-                setSendingOtp(false);
+    const sendLoginRequest = async () => {
+        try {
+            const response = await fetch(`${API}/auth/login`, {
+                method: "POST",
+                credentials: "include",
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to send OTP.");
             }
-        };
 
-        sendLoginRequest();
-    }, []);
+            setError("");
+        } catch {
+            setError(
+                "Failed to send the verification code. Please refresh the page and try again."
+            );
+        } finally {
+            setSendingOtp(false);
+        }
+    };
+
+    sendLoginRequest();
+}, []);
+
 
     useEffect(() => {
         if (view === "dashboard") {
@@ -104,13 +122,22 @@ export default function LoginVerification() {
                 body: JSON.stringify({ otp: value }),
             });
 
-            if (!response.ok) {
-                setError("Invalid or expired OTP.");
-                setOtp("");
-                return;
-            }
+            const data = await response.json();
 
-            setView("dashboard");
+if (!response.ok) {
+    setError(data.message || "Invalid or expired OTP.");
+    setOtp("");
+    return;
+}
+
+if (!data.accessToken) {
+    throw new Error(
+        "The server did not return an access token."
+    );
+}
+
+sessionStorage.setItem("accessToken", data.accessToken);
+setView("dashboard");
         } catch {
             setError("Verification failed. Please try again.");
             setOtp("");
