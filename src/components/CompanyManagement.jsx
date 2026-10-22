@@ -13,6 +13,93 @@ const EMPTY_FORM = {
     domain: "",
 };
 
+function OtpInput({ value, onChange, disabled }) {
+    const inputRefs = useRef([]);
+
+    const digits = Array.from(
+        { length: 6 },
+        (_, index) => value[index] || ""
+    );
+
+    const handleChange = (index, rawValue) => {
+        const digit = rawValue.replace(/\D/g, "").slice(-1);
+
+        const next = digits.slice();
+        next[index] = digit;
+
+        onChange(next.join(""));
+
+        if (digit && index < 5) {
+            inputRefs.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (index, event) => {
+        if (
+            event.key === "Backspace" &&
+            !digits[index] &&
+            index > 0
+        ) {
+            inputRefs.current[index - 1]?.focus();
+        }
+
+        if (event.key === "ArrowLeft" && index > 0) {
+            inputRefs.current[index - 1]?.focus();
+        }
+
+        if (event.key === "ArrowRight" && index < 5) {
+            inputRefs.current[index + 1]?.focus();
+        }
+    };
+
+    const handlePaste = (event) => {
+        event.preventDefault();
+
+        const pasted = event.clipboardData
+            .getData("text")
+            .replace(/\D/g, "")
+            .slice(0, 6);
+
+        if (pasted) {
+            onChange(pasted);
+
+            const nextIndex = Math.min(pasted.length, 5);
+            inputRefs.current[nextIndex]?.focus();
+        }
+    };
+
+    return (
+        <div className="cm-otp-digits" aria-label="Six-digit verification code">
+            {digits.map((digit, index) => (
+                <input
+                    key={index}
+                    ref={(element) => {
+                        inputRefs.current[index] = element;
+                    }}
+                    className={`cm-otp-digit ${
+                        digit ? "has-value" : ""
+                    }`}
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete={index === 0 ? "one-time-code" : "off"}
+                    aria-label={`Digit ${index + 1}`}
+                    maxLength={1}
+                    value={digit}
+                    disabled={disabled}
+                    onChange={(event) =>
+                        handleChange(index, event.target.value)
+                    }
+                    onKeyDown={(event) =>
+                        handleKeyDown(index, event)
+                    }
+                    onPaste={handlePaste}
+                    onFocus={(event) => event.target.select()}
+                />
+            ))}
+        </div>
+    );
+}
+
 const getAuthHeaders = () => {
     const token = sessionStorage.getItem(TOKEN_KEY);
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -75,7 +162,7 @@ export default function LoginVerification() {
         try {
             const response = await fetch(`${API}/auth/login`, {
                 method: "POST",
-                credentials: "include",
+                credentials: "include"
             });
 
             if (!response.ok) throw new Error("Failed to send OTP.");
@@ -295,92 +382,120 @@ export default function LoginVerification() {
     /* =====================================================
        OTP VIEW
     ===================================================== */
-    if (view === "otp") {
-        return (
-            <div className="cm cm-verify">
-                <div className="cm-verify-card">
-                    <div className="cm-brand cm-brand-dark">
-                        <span className="cm-brand-mark">B</span>
-                        <span>BeautySalon</span>
+ if (view === "otp") {
+    return (
+        <div className="cm cm-verify">
+            <div className="cm-brand cm-brand-dark cm-otp-page-brand">
+                <span className="cm-brand-mark">B</span>
+                <span>BeautySalon</span>
+            </div>
+
+            <div className="cm-otp-overlay">
+                <section
+                    className="cm-otp-dialog animate-slide-up"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="otp-title"
+                >
+                    <div className="cm-modal-drag-handle" />
+
+                    <div className="cm-otp-header">
+                        <div className="cm-otp-icon" aria-hidden="true">
+                            <icon name="lock-keyhole" size="26px" />
+                        </div>
+
+                        <span className="cm-otp-eyebrow">
+                            SECURE ACCESS
+                        </span>
+
+                        <h2 id="otp-title">VERIFICATION</h2>
+
+                        <p>
+                            A security code has been sent to your email
+                            address. Enter the six-digit code to continue.
+                        </p>
                     </div>
 
-                    <h1>Verify your account</h1>
-
-                    {sendingOtp && (
-                        <p className="cm-verify-text" role="status">
-                            Sending a verification code to your email…
-                        </p>
-                    )}
-
-                    {!sendingOtp && sendFailed && (
-                        <>
-                            <p className="cm-verify-error" role="alert">
-                                We couldn’t send the verification code. Check
-                                your connection and try again.
+                    {sendingOtp ? (
+                        <div className="cm-otp-status" role="status">
+                            <span className="cm-otp-spinner" />
+                            Sending your verification code…
+                        </div>
+                    ) : sendFailed ? (
+                        <div className="cm-otp-error-area">
+                            <p className="cm-otp-error" role="alert">
+                                We couldn't send your verification code.
+                                Please try again.
                             </p>
+
                             <button
                                 type="button"
                                 className="cm-button cm-button-dark cm-button-block"
                                 onClick={sendLoginRequest}
                             >
-                                Send code again
+                                Try again
                             </button>
-                        </>
-                    )}
-
-                    {!sendingOtp && !sendFailed && (
+                        </div>
+                    ) : (
                         <>
-                            <p className="cm-verify-text">
-                                Enter the 6-digit code we sent to your email.
-                            </p>
-
-                            <label className="cm-sr-only" htmlFor="otp-input">
-                                Verification code
-                            </label>
-                            <input
-                                id="otp-input"
-                                className="cm-otp-input"
-                                type="text"
-                                inputMode="numeric"
-                                autoComplete="one-time-code"
-                                maxLength={6}
-                                placeholder="000000"
-                                value={otp}
-                                onChange={handleOtpChange}
-                                disabled={verifying}
-                                autoFocus
-                            />
+                            <div className="cm-otp-input-area">
+                                <OtpInput
+                                    value={otp}
+                                    onChange={handleOtpChange}
+                                    disabled={verifying}
+                                />
+                            </div>
 
                             {verifying && (
-                                <p className="cm-verify-text" role="status">
-                                    Verifying…
+                                <p className="cm-otp-status" role="status">
+                                    <span className="cm-otp-spinner" />
+                                    Verifying your code…
                                 </p>
                             )}
 
                             {otpError && (
-                                <p className="cm-verify-error" role="alert">
+                                <p className="cm-otp-error" role="alert">
                                     {otpError}
                                 </p>
                             )}
 
                             <button
                                 type="button"
-                                className="cm-link-button"
+                                className="cm-otp-resend"
                                 onClick={sendLoginRequest}
-                                disabled={verifying}
+                                disabled={verifying || sendingOtp}
                             >
-                                Send a new code
+                                Didn't receive a code?{" "}
+                                <span>Send again</span>
                             </button>
                         </>
                     )}
 
-                    <p className="cm-verify-note">
-                        <span className="cm-dot" /> Secure administrator access
-                    </p>
-                </div>
+                    <div className="cm-otp-divider" />
+
+                    <div className="cm-otp-footer">
+                        <span className="cm-otp-secure-icon">
+                            <icon name="shield-check" size="16px" />
+                        </span>
+                        Secure administrator access
+                    </div>
+
+                    <button
+                        type="button"
+                        className="cm-otp-cancel"
+                        onClick={() => {
+                            setOtp("");
+                            setOtpError("");
+                        }}
+                        disabled={verifying || sendingOtp}
+                    >
+                        CLEAR CODE
+                    </button>
+                </section>
             </div>
-        );
-    }
+        </div>
+    );
+}
 
     /* =====================================================
        DASHBOARD VIEW
