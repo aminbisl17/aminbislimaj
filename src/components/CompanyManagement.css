@@ -1230,3 +1230,309 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* =====================================================
+   OTP MODAL — DESKTOP BASE STYLES
+   ===================================================== */
+
+.cm.cm-verify {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: block;
+    padding: 0;
+    background: #f7f7f5;
+}
+
+.cm-otp-page-brand {
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    z-index: 2;
+}
+
+.cm-otp-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background: rgba(23, 26, 29, 0.48);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.cm-otp-dialog {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+
+    padding: 36px 32px 24px;
+
+    border: 1px solid #e5e7e4;
+    border-radius: 24px;
+
+    background: #fff;
+    color: #171a1d;
+
+    box-shadow: 0 24px 80px rgba(15, 24, 18, 0.2);
+    text-align: center;
+}
+
+.cm-modal-drag-handle {
+    display: none;
+}
+
+.cm-otp-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cm-otp-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+
+    border: 1px solid #dbe4dc;
+    border-radius: 20px;
+
+    background: #eaf0e9;
+    color: #315342;
+}
+
+.cm-otp-eyebrow {
+    margin-bottom: 8px;
+    color: #7b887d;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.cm-otp-header h2 {
+    margin: 0;
+    color: #20251f;
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.cm-otp-header p {
+    max-width: 320px;
+    margin: 12px 0 28px;
+    color: #777e75;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.cm-otp-input-area {
+    width: 100%;
+}
+
+.cm-otp-digits {
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+}
+
+.cm-otp-digit {
+    box-sizing: border-box;
+    width: 48px;
+    height: 56px;
+    min-width: 0;
+    padding: 0;
+
+    border: 1px solid #e0e3dc;
+    border-radius: 12px;
+    outline: none;
+
+    background: #fff;
+    color: #315342;
+
+    font-family: "Manrope", sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+    text-align: center;
+
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.cm-otp-digit:focus {
+    border-color: #526b5b;
+    box-shadow: 0 0 0 3px rgba(82, 107, 91, 0.12);
+}
+
+.cm-otp-digit.has-value {
+    border-color: #b7c8b9;
+    background: #f2f6f1;
+}
+
+.cm-otp-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin: 18px 0 0;
+    color: #69766b;
+    font-size: 12px;
+}
+
+.cm-otp-spinner {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+
+    border: 2px solid #d8e1d8;
+    border-top-color: #315342;
+    border-radius: 50%;
+
+    animation: cm-otp-spin 0.7s linear infinite;
+}
+
+@keyframes cm-otp-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.cm-otp-error {
+    margin: 16px 0 0;
+    color: #b5473c;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.cm-otp-resend {
+    margin: 22px 0 24px;
+    padding: 6px;
+
+    border: 0;
+    background: transparent;
+    color: #7c827a;
+
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.cm-otp-resend span {
+    color: #315342;
+    font-weight: 800;
+}
+
+.cm-otp-divider {
+    height: 1px;
+    background: #e9e9e2;
+}
+
+.cm-otp-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 18px;
+
+    color: #81877e;
+    font-size: 11px;
+}
+
+.cm-otp-secure-icon {
+    display: inline-flex;
+    color: #526b5b;
+}
+
+.cm-otp-cancel {
+    margin-top: 18px;
+    padding: 8px 14px;
+
+    border: 0;
+    background: transparent;
+    color: #7b8279;
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    cursor: pointer;
+}
+
+.cm-otp-cancel:disabled,
+.cm-otp-resend:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.cm-otp-error-area .cm-button {
+    margin-top: 18px;
+}
+
+.animate-slide-up {
+    animation: cm-otp-slide-up 240ms ease-out both;
+}
+
+@keyframes cm-otp-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile modal behavior */
+@media (max-width: 520px) {
+    .cm-otp-page-brand {
+        top: 20px;
+        left: 20px;
+    }
+
+    .cm-otp-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .cm-otp-dialog {
+        max-width: none;
+        max-height: 92vh;
+        max-height: 92dvh;
+        padding: 28px 20px max(24px, env(safe-area-inset-bottom));
+        border-radius: 24px 24px 0 0;
+    }
+
+    .cm-modal-drag-handle {
+        display: block;
+        width: 38px;
+        height: 4px;
+        margin: -16px auto 24px;
+        border-radius: 10px;
+        background: #d4d8d1;
+    }
+
+    .cm-otp-digits {
+        gap: clamp(5px, 2vw, 9px);
+    }
+
+    .cm-otp-digit {
+        width: clamp(39px, 12vw, 48px);
+        height: 52px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cm-otp-spinner,
+    .animate-slide-up {
+        animation: none;
+    }
+}
