@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Portfolio.css";
+import "./Projects.css";
 
 const projectImages = import.meta.glob(
   "../assets/project/*.{png,jpg,jpeg,webp}",
@@ -634,150 +635,335 @@ export default function Main() {
       </section>
 
       {/* PROJECT */}
-      <section className="section project-section" id="project">
-        <div className="section-heading">
-          <h2>{t.sections.project}</h2>
+    
+{/* PROJECT */}
+
+{/* PROJECT */}
+<section className="section project-section" id="project">
+  <div className="project-marketplace">
+
+    {/* Section heading */}
+    <div className="project-heading">
+      <div>
+        <span className="project-eyebrow">
+          SELECTED WORK / 01
+        </span>
+        <h2>{t.sections.project}</h2>
+        <p className="project-intro">
+          Software built to solve real business problems.
+        </p>
+      </div>
+
+      <span className="project-count">
+        PRODUCT <span>01</span>
+      </span>
+    </div>
+
+    {/* Main product card */}
+    <article className="product-card">
+
+      <div className="product-cover">
+        <div className="product-cover-top">
+          <span className="product-category">
+            <span className="product-status-dot" />
+            SAAS PLATFORM
+          </span>
+
+          <span className="product-index">BS — 001</span>
         </div>
 
-        <div className="project-card">
-          <div className="project-top">
-            <div>
-              <span className="project-label">{t.project.label}</span>
-              <h2>{t.project.title}</h2>
-              <p>{t.project.description}</p>
-            </div>
-
-            <div className="project-actions">
-              <a href={profile.demoClient} target="_blank" rel="noreferrer" className="project-button">
-                {t.project.client}
-              </a>
-              <a href={profile.demoAdmin} target="_blank" rel="noreferrer" className="project-button secondary">
-                {t.project.admin}
-              </a>
-
-                <a href="/tenants" className="project-button secondary">
-               {t.project.getKey}
-  </a>
-            </div>
+        <div className="product-cover-content">
+          <div className="product-brand">
+            <span className="product-brand-icon">B.</span>
+            <span>BeautySalon</span>
           </div>
 
-          <div className="project-tech">
-            {[
-              "Java", "Spring Boot", "MS SQL Server", "React", "React Native",
-              "JavaFX", "Azure", "Render", "Cloudflare",
-            ].map((tech) => (
-              <span key={tech}>{tech}</span>
-            ))}
-          </div>
+          <h3>
+            Your salon.
+            <br />
+            <span>Better managed.</span>
+          </h3>
 
-          <div className="project-highlights">
-            <h3>{t.project.highlightsTitle}</h3>
-            <div className="project-highlights-grid">
-              {t.project.highlights.map((h) => (
-                <div className="project-highlight" key={h.title}>
-                  <strong>{h.title}</strong>
-                  <p>{h.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <p>
+            A multi-platform salon management and appointment
+            booking system designed to simplify everyday
+            operations.
+          </p>
 
-          {images.length > 0 && (
-            <div className="project-gallery">
-              <div className="project-gallery-heading">
-                <div>
-                  <span className="project-gallery-label">{t.project.screenshots}</span>
-                  <h3>{t.project.screenshotsTitle}</h3>
-                  <p>{t.project.screenshotsDescription}</p>
-                </div>
-              </div>
-
-              <div className="project-gallery-grid">
-                {images.map(([path, image], index) => {
-                  const fileName = path
-                    .split("/")
-                    .pop()
-                    .replace(/\.[^/.]+$/, "")
-                    .replace(/[-_]/g, " ");
-
-                  return (
-                    <button
-                      type="button"
-                      className={`project-image-card ${index === 0 ? "project-image-large" : ""}`}
-                      key={path}
-                      onClick={() => setSelectedImage({ src: image, name: fileName })}
-                      aria-label={`Enlarge: ${fileName}`}
-                    >
-                      <img src={image} alt={`Beauty Salon ${fileName}`} loading="lazy" />
-                      <div className="project-image-overlay">
-                        <span>{fileName}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {selectedImage && (
-            <div
-              className="lightbox-overlay"
-              role="dialog"
-              aria-modal="true"
-              aria-label={selectedImage.name}
-              onClick={() => setSelectedImage(null)}
+          <div className="product-cover-actions">
+            <a
+              href="YOUR_LIVE_PRODUCT_URL"
+              target="_blank"
+              rel="noreferrer"
+              className="product-btn product-btn-primary"
             >
-              <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-                <button
-                  className="lightbox-close"
-                  onClick={() => setSelectedImage(null)}
-                  aria-label="Close"
-                  type="button"
-                >
-                  &times;
-                </button>
-                <img src={selectedImage.src} alt={selectedImage.name} />
-                <div className="lightbox-caption">{selectedImage.name}</div>
-              </div>
-            </div>
-          )}
+              Explore product <span>↗</span>
+            </a>
 
-          <div className="project-body">
-            <div className="project-column">
-              <h3>{t.project.built}</h3>
-              <ul>
-                {t.project.builtItems.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
+            <a
+              href="#contact"
+              className="product-btn product-btn-secondary"
+            >
+              Interested in a similar solution? <span>↗</span>
+            </a>
+          </div>
+        </div>
 
-            <div className="project-column">
-              <h3>{t.project.business}</h3>
-              <ul>
-                {t.project.businessItems.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
+        <div className="product-cover-decoration" aria-hidden="true">
+          <span className="cover-circle cover-circle-one" />
+          <span className="cover-circle cover-circle-two" />
+          <span className="cover-cross">+</span>
+        </div>
+
+        <div className="product-cover-bottom">
+          <span>DESIGNED FOR BEAUTY BUSINESSES</span>
+          <span>WEB · MOBILE · DESKTOP</span>
+        </div>
+      </div>
+
+      {/* Product information */}
+      <div className="product-details">
+
+        <div className="product-meta">
+          <div>
+            <span className="product-label">CATEGORY</span>
+            <span className="product-meta-value">
+              Business software
+            </span>
           </div>
 
-          <div className="project-footer">
+          <div>
+            <span className="product-label">ROLE</span>
+            <span className="product-meta-value">
+              Solo developer
+            </span>
+          </div>
+
+          <div>
+            <span className="product-label">PLATFORMS</span>
+            <span className="product-meta-value">
+              3 connected experiences
+            </span>
+          </div>
+        </div>
+
+        {/* Platform showcase */}
+        <div className="product-platforms">
+          <div className="product-subheading">
             <div>
-              <strong>{t.project.platform}</strong>
-              <span>{t.project.platformValue}</span>
+              <span className="product-label">THE ECOSYSTEM</span>
+              <h4>One product. Multiple platforms.</h4>
             </div>
-            <div>
-              <strong>{t.project.backend}</strong>
-              <span>{t.project.backendValue}</span>
+            <span className="product-small-note">01 — 03</span>
+          </div>
+
+          <div className="platform-grid">
+            <div className="platform-item">
+              <div className="platform-icon">
+                <span>↗</span>
+              </div>
+              <div>
+                <h5>Client & Admin Web</h5>
+                <p>Bookings and salon management</p>
+              </div>
+              <span className="platform-arrow">↗</span>
             </div>
-            <div>
-              <strong>{t.project.database}</strong>
-              <span>{t.project.databaseValue}</span>
+
+            <div className="platform-item">
+              <div className="platform-icon">
+                <span>▯</span>
+              </div>
+              <div>
+                <h5>Mobile Apps</h5>
+                <p>Employee and admin workflows</p>
+              </div>
+              <span className="platform-arrow">↗</span>
+            </div>
+
+            <div className="platform-item">
+              <div className="platform-icon">
+                <span>⌘</span>
+              </div>
+              <div>
+                <h5>Desktop App</h5>
+                <p>Company-level operations</p>
+              </div>
+              <span className="platform-arrow">↗</span>
             </div>
           </div>
         </div>
-      </section>
+
+        {/* Feature highlights */}
+        <div className="product-features">
+          <div className="product-subheading">
+            <div>
+              <span className="product-label">WHAT IT DOES</span>
+              <h4>Built around real workflows.</h4>
+            </div>
+          </div>
+
+          <div className="feature-grid">
+            <div className="feature-item">
+              <span className="feature-number">01</span>
+              <div>
+                <h5>Appointment booking</h5>
+                <p>Service selection, employee availability, and scheduling.</p>
+              </div>
+            </div>
+
+            <div className="feature-item">
+              <span className="feature-number">02</span>
+              <div>
+                <h5>Team management</h5>
+                <p>Employee services, availability, and role-based access.</p>
+              </div>
+            </div>
+
+            <div className="feature-item">
+              <span className="feature-number">03</span>
+              <div>
+                <h5>Business operations</h5>
+                <p>Centralized salon administration and reporting workflows.</p>
+              </div>
+            </div>
+
+            <div className="feature-item">
+              <span className="feature-number">04</span>
+              <div>
+                <h5>Connected architecture</h5>
+                <p>REST APIs, authentication, and real-time updates.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tech stack */}
+        <div className="product-tech">
+          <div>
+            <span className="product-label">BUILT WITH</span>
+            <h4>Technology stack</h4>
+          </div>
+
+          <div className="product-tech-tags">
+            <span>Java</span>
+            <span>Spring Boot</span>
+            <span>React</span>
+            <span>React Native</span>
+            <span>JavaFX</span>
+            <span>SQL Server</span>
+          </div>
+        </div>
+
+        {/* Product gallery — retain your existing image state */}
+    
+    
+{/* Screenshot gallery */}
+<div className="product-gallery">
+  <div className="product-subheading">
+    <div>
+      <span className="product-label">INSIDE THE PRODUCT</span>
+      <h4>Product preview</h4>
+    </div>
+    <span className="product-small-note">CLICK TO EXPLORE</span>
+  </div>
+
+  <div className="product-gallery-grid">
+    {images.map(([path, image], index) => {
+      const fileName = path
+        .split("/")
+        .pop()
+        .replace(/\.[^/.]+$/, "")
+        .replace(/[-_]/g, " ");
+
+      return (
+        <button
+          type="button"
+          className={`product-gallery-item ${
+            index === 0 ? "product-gallery-item-large" : ""
+          }`}
+          key={path}
+          onClick={() =>
+            setSelectedImage({ src: image, name: fileName })
+          }
+          aria-label={`Enlarge: ${fileName}`}
+        >
+          <img
+            src={image}
+            alt={`Beauty Salon ${fileName}`}
+            loading="lazy"
+          />
+
+          <span className="gallery-zoom" aria-hidden="true">
+            ↗
+          </span>
+
+          <span className="gallery-caption">{fileName}</span>
+        </button>
+      );
+    })}
+  </div>
+</div>
+
+{/* Lightbox */}
+{selectedImage && (
+  <div
+    className="lightbox-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label={selectedImage.name}
+    onClick={() => setSelectedImage(null)}
+  >
+    <div
+      className="lightbox-content"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        className="lightbox-close"
+        onClick={() => setSelectedImage(null)}
+        aria-label="Close"
+        type="button"
+      >
+        &times;
+      </button>
+
+      <img src={selectedImage.src} alt={selectedImage.name} />
+
+      <div className="lightbox-caption">
+        {selectedImage.name}
+      </div>
+    </div>
+  </div>
+)}
+
+
+        {/* Bottom CTA */}
+        <div className="product-contact">
+          <div>
+            <span className="product-label">HAVE A PROJECT IN MIND?</span>
+            <h3>Let's build something useful.</h3>
+            <p>
+              Looking for a developer to turn an idea into a working
+              product? Let's talk.
+            </p>
+          </div>
+
+          <a href="#contact" className="product-contact-btn">
+            Start a conversation <span>↗</span>
+          </a>
+        </div>
+
+      </div>
+    </article>
+
+    <div className="project-section-footer">
+      <span>INDEPENDENTLY DESIGNED & DEVELOPED</span>
+      <span>PORTFOLIO / 2026</span>
+    </div>
+  </div>
+
+  {/* Keep your existing lightbox markup here, if you already have one. */}
+</section>
+
 
       {/* EXPERIENCE */}
       <section className="section" id="experience">
