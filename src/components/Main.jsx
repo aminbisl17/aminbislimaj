@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Portfolio.css";
 import "./Projects.css";
+import products from "./Products";
 
 const projectImages = import.meta.glob(
   "../assets/project/*.{png,jpg,jpeg,webp}",
@@ -388,6 +389,8 @@ export default function Main() {
     a.localeCompare(b)
   );
 
+  const product = products[0];
+
   return (
     <main className="portfolio">
       {/* NAVIGATION */}
@@ -691,15 +694,14 @@ export default function Main() {
           </p>
 
           <div className="product-cover-actions">
-            <a
-              href="YOUR_LIVE_PRODUCT_URL"
-              target="_blank"
-              rel="noreferrer"
-              className="product-btn product-btn-primary"
-            >
-              Explore product <span>↗</span>
-            </a>
-
+         
+        
+<a
+  href={`/product/${product.slug}`}
+  className="product-btn product-btn-primary"
+>
+  Explore product <span>↗</span>
+</a>
             <a
               href="#contact"
               className="product-btn product-btn-secondary"
