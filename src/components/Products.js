@@ -1,3 +1,17 @@
+
+// Change the folder to wherever your screenshots live
+const shots = import.meta.glob(
+  "../assets/project/*.{png,jpg,jpeg,webp}",
+  { eager: true, query: "?url", import: "default" }
+);
+console.log("gallery files found:", Object.keys(shots));
+
+const beautySalonGallery = Object.entries(shots)
+  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  .map(([path, src]) => ({
+    src,
+    name: path.split("/").pop().replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
+  }));
 // One object per product. The page at /product/:slug renders whichever one matches the slug.
 const products = [
   {
@@ -17,6 +31,8 @@ const products = [
       ["Mobile", "Employees and admins check the day's schedule on the go."],
       ["Desktop", "Company-level operations for owners and managers."],
     ],
+    heroImage: beautySalonGallery[0]?.src || null,
+gallery: beautySalonGallery,
     featuresTitle: "Built around real salon workflows",
     features: [
       ["Appointment booking", "Clients pick a service, a stylist and a time that is actually free."],

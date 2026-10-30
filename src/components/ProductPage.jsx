@@ -187,6 +187,60 @@ function Reviews({ product }) {
   );
 }
 
+function Gallery({ product }) {
+  const items = product.gallery || [];
+  const [current, setCurrent] = useState(null); // index or null
+
+  useEffect(() => {
+    if (current === null) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") setCurrent(null);
+      if (e.key === "ArrowRight") setCurrent((i) => (i + 1) % items.length);
+      if (e.key === "ArrowLeft") setCurrent((i) => (i - 1 + items.length) % items.length);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [current, items.length]);
+
+  if (!items.length) return null;
+
+  return (
+    <section className="pp-section" id="gallery">
+      <h2>Inside the product</h2>
+      <div className="pp-gallery">
+        {items.map((item, i) => (
+          <button
+            type="button"
+            key={item.src}
+            className={`pp-shot ${i === 0 ? "pp-shot-large" : ""}`}
+            onClick={() => setCurrent(i)}
+            aria-label={`Enlarge: ${item.name}`}
+          >
+            <img src={item.src} alt={`${product.name} ${item.name}`} loading="lazy" />
+            <span className="pp-shot-caption">{item.name}</span>
+          </button>
+        ))}
+      </div>
+
+      {current !== null && (
+        <div className="pp-overlay" role="dialog" aria-modal="true" aria-label={items[current].name} onClick={() => setCurrent(null)}>
+          <div className="pp-lightbox" onClick={(e) => e.stopPropagation()}>
+            <button type="button" className="pp-modal-close" onClick={() => setCurrent(null)} aria-label="Close">&times;</button>
+            {items.length > 1 && (
+              <>
+                <button type="button" className="pp-lb-nav pp-lb-prev" onClick={() => setCurrent((current - 1 + items.length) % items.length)} aria-label="Previous">‹</button>
+                <button type="button" className="pp-lb-nav pp-lb-next" onClick={() => setCurrent((current + 1) % items.length)} aria-label="Next">›</button>
+              </>
+            )}
+            <img src={items[current].src} alt={items[current].name} />
+            <p>{items[current].name} · {current + 1} / {items.length}</p>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
 export default function ProductPage({ slug }) {
   const product = products.find((p) => p.slug === slug);
   const [activePlan, setActivePlan] = useState(null);
@@ -220,6 +274,7 @@ export default function ProductPage({ slug }) {
         <nav className="pp-topbar">
           <a href="/#project" className="pp-back">← Back to portfolio</a>
           <div className="pp-topnav">
+            <a href="#gallery">Gallery</a>
             <a href="#plans">Plans</a>
             <a href="#features">Features</a>
             <a href="#reviews">Reviews</a>
@@ -241,12 +296,6 @@ export default function ProductPage({ slug }) {
             <div className="pp-hero-rating">
               <Stars value={product.rating} size={14} /> <a href="#reviews">Read client reviews</a>
             </div>
-          </div>
-
-          <div className="pp-hero-art" aria-hidden="true">
-            <span className="pp-ring pp-ring-1" />
-            <span className="pp-ring pp-ring-2" />
-            {product.heroImage && <img src={product.heroImage} alt="" />}
           </div>
         </header>
 
@@ -276,6 +325,9 @@ export default function ProductPage({ slug }) {
           </div>
         </section>
 
+        <Gallery product={product} />
+
+        {/* Plans */}
         {/* Plans */}
         <section className="pp-section" id="plans">
           <h2>Choose your plan</h2>
