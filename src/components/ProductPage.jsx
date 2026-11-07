@@ -288,7 +288,7 @@ export default function ProductPage({ slug }) {
             <h1>{product.title}</h1>
             <p>{product.description}</p>
             <div className="pp-hero-actions">
-              <a href="/company" className="pp-btn pp-btn-light">
+              <a href="/tenants" className="pp-btn pp-btn-light">
   Get key
 </a>
               <a href="#plans" className="pp-btn pp-btn-ghost">See plans</a>
