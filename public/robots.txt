@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /company
+Disallow: /tenants
+Disallow: /api/
+
+Sitemap: https://aminbislimaj.com/sitemap.xml

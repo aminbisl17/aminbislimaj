@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://aminbislimaj.com/</loc>
-    </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://aminbislimaj.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://aminbislimaj.com/" />
+    <xhtml:link rel="alternate" hreflang="sq" href="https://aminbislimaj.com/?lang=sq" />
+    <lastmod>2026-11-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://aminbislimaj.com/product/beautysalon</loc>
+    <lastmod>2026-11-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://aminbislimaj.com/Amin_Bislimaj_CV.pdf</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.5</priority>
+  </url>
 </urlset>

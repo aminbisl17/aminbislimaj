@@ -38,7 +38,7 @@
         font-size="27" 
         font-weight="500" 
         fill="#475569"
-        letter-spacing="6.4">SOFTWARE CREATOR</text>
+        letter-spacing="6.4">SOFTWARE ENGINEER</text>
 
   <!-- Accent line -->
   <rect x="276" y="232" width="184" height="4" rx="2" fill="url(#accent)"/>
